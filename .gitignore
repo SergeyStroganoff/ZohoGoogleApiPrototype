@@ -19,6 +19,9 @@
 *.tar.gz
 *.rar
 
+#json
+*.json
+
 # IDEA #
 /.idea
 
@@ -26,3 +29,9 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+
+# no pass here !!!
+src/main/resources/cred.json
+src/main/resources/credentials.json
+src/main/resources/tokens.json
+target/
