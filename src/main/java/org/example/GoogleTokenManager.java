@@ -1,6 +1,9 @@
 package org.example;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.service.ZohoService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -15,16 +18,14 @@ import java.util.concurrent.atomic.AtomicReference;
  * It handles the refresh token flow and provides a method to get the current access token.
  */
 public class GoogleTokenManager {
-
     private final String clientId;
     private final String clientSecret;
     private final String refreshToken;
 
+    private static final Logger logger = LoggerFactory.getLogger(ZohoService.class);
     private final AtomicReference<String> accessToken = new AtomicReference<>(null);
     private final AtomicReference<Instant> accessTokenExpiry = new AtomicReference<>(Instant.EPOCH); // Древняя дата
-
     private static final String TOKEN_URL = "https://oauth2.googleapis.com/token";
-
     private final HttpClient httpClient = HttpClient.newHttpClient();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -36,11 +37,9 @@ public class GoogleTokenManager {
 
     public String getAccessToken() throws Exception {
         Instant now = Instant.now();
-
         if (accessToken.get() == null || now.isAfter(accessTokenExpiry.get().minusSeconds(60))) {
             refreshAccessToken();
         }
-
         return accessToken.get();
     }
 
@@ -49,27 +48,22 @@ public class GoogleTokenManager {
                 "client_id=%s&client_secret=%s&refresh_token=%s&grant_type=refresh_token",
                 clientId, clientSecret, refreshToken
         );
-
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(TOKEN_URL))
                 .header("Content-Type", "application/x-www-form-urlencoded")
                 .POST(HttpRequest.BodyPublishers.ofString(body))
                 .build();
-
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-
         if (response.statusCode() != 200) {
+            logger.error("Failed to refresh access token. Status code: " + response.statusCode());
             throw new RuntimeException("Failed to refresh access token: " + response.body());
         }
-
         Map<String, Object> json = objectMapper.readValue(response.body(), Map.class);
-
         String newAccessToken = (String) json.get("access_token");
         int expiresInSeconds = (Integer) json.get("expires_in");
-
         accessToken.set(newAccessToken);
         accessTokenExpiry.set(Instant.now().plusSeconds(expiresInSeconds));
-
+        logger.info("Access token refreshed successfully. New token: " + newAccessToken);
         System.out.println("Access token refreshed successfully.");
     }
 }

@@ -26,9 +26,6 @@ import java.util.List;
 
 /* class to demonstrate use of Calendar events list API */
 public class CalendarQuickstart {
-    /**
-     * Application name.
-     */
     private static final String APPLICATION_NAME = "Google Calendar API Java Quickstart";
     /**
      * Global instance of the JSON factory.
