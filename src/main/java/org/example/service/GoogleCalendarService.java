@@ -26,29 +26,57 @@ public class GoogleCalendarService {
 
     //todo: добавить метод для получения списка календарей
     public List<GoogleCalendar> getCalendarList() throws IOException, InterruptedException {
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://example.com"))
-                .build();
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        return objectMapper.readValue(response.body(), objectMapper.getTypeFactory().constructCollectionType(List.class, GoogleCalendar.class));
+        throw new UnsupportedOperationException("Method not implemented yet");
     }
 
-    public List<CalendarEvent> getEvents() throws IOException, InterruptedException {
+    public List<CalendarEvent> getAllEvents() throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(CALENDAR_API_URL))
                 .header("Authorization", "Bearer " + accessToken)
                 .GET()
                 .build();
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-
-        //todo: добавить обработку ошибок убрать вывод в консоль
         if (response.statusCode() == 200) {
             logger.info("Successfully fetched calendar events.");
             logger.debug("Response body: {}", response.body());
         } else {
-            System.err.println("Failed to fetch calendar events. Status: " + response.statusCode());
-            System.err.println("Response body: " + response.body());
+            logger.error("Failed to fetch calendar events. Status: {}", response.statusCode());
+        }
+        return parseEvents(response.body());
+    }
+
+
+    /**
+     * Fetches calendar events for a specific date range.
+     *
+     * @param UTCTimeMin date The date in RFC3339 format (e.g., "2023-10-01T00:00:00Z").
+     * @param UTCTimeMax date The date in RFC3339 format (e.g., "2023-10-01T00:00:00Z").
+     * @return A list of calendar CalendarEvent for the specified date.
+     * @throws IOException
+     * @throws InterruptedException
+     */
+
+    public List<CalendarEvent> getEventsByDate(String UTCTimeMin, String UTCTimeMax) throws IOException, InterruptedException {
+        // Validate input parameters
+        if (UTCTimeMin == null || UTCTimeMax == null || UTCTimeMin.isEmpty() || UTCTimeMax.isEmpty()) {
+            throw new IllegalArgumentException("Time parameters cannot be null or empty");
+        }
+        StringBuilder urlBuilder = new StringBuilder(CALENDAR_API_URL);
+        urlBuilder.append("?timeMin=").append(UTCTimeMin)
+                .append("&timeMax=").append(UTCTimeMax)
+                .append("&singleEvents=true")
+                .append("&orderBy=startTime");
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(urlBuilder.toString()))
+                .header("Authorization", "Bearer " + accessToken)
+                .GET()
+                .build();
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        if (response.statusCode() == 200) {
+            logger.info("Successfully fetched calendar events for date range: from: {}, to: {}", UTCTimeMin, UTCTimeMax);
+            logger.debug("Response body: {}", response.body());
+        } else {
+            logger.error("Failed to fetch calendar events for date range: from: {}, to: {}. Response: {}", UTCTimeMin, UTCTimeMax, response.statusCode());
         }
         return parseEvents(response.body());
     }
