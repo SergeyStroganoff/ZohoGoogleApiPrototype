@@ -1,6 +1,6 @@
 package org.example.service;
 
-import org.example.entity.CalendarEvent;
+import org.example.entity.google.CalendarEvent;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

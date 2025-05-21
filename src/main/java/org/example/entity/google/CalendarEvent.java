@@ -1,4 +1,4 @@
-package org.example.entity;
+package org.example.entity.google;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
@@ -34,6 +34,18 @@ public class CalendarEvent {
     private List<Attendee> attendees;
     private Reminders reminders;
     private String eventType;
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("CalendarEvent:\n");
+        sb.append("id=").append(id).append('\n');
+        sb.append("status=").append(status).append('\n');
+        sb.append("summary=").append(summary).append('\n');
+        sb.append("description=").append(description).append('\n');
+        sb.append("location=").append(location).append('\n');
+        return sb.toString();
+    }
 
 
     // Nested classes

@@ -1,22 +1,38 @@
 package org.example.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.tools.javac.Main;
 import lombok.val;
 import org.example.entity.AppCredentials;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+
+/**
+ * CredentialsFileRetrieverImpl is a class that retrieves and saves application credentials from resource a JSON file.
+ * Writes the credentials to a file in the src/main/resources (the approach is not recommended for production and jar file).
+ */
 
 public class CredentialsFileRetrieverImpl implements CredentialsRetriever {
+
     public static final String FILE_PATH = "src/main/resources/credentials.json";
+    public static final String CREDENTIALS_JSON = "/credentials.json";
     private final Logger logger = LoggerFactory.getLogger(CredentialsFileRetrieverImpl.class);
     private static final ObjectMapper objectMapper = JsonUtils.OBJECT_MAPPER;
 
+
     @Override
     public AppCredentials readCredentials() throws IOException {
-        val credentials = objectMapper.readValue(new File(FILE_PATH), AppCredentials.class);
+
+        InputStream inputStream = CredentialsFileRetrieverImpl.class.getResourceAsStream(CREDENTIALS_JSON);
+        if (inputStream == null) {
+            logger.error("File not found: {}", CREDENTIALS_JSON);
+            throw new RuntimeException("File not found!");
+        }
+
+        val credentials = objectMapper.readValue(inputStream, AppCredentials.class);
         logger.info("Credentials loaded successfully");
         return credentials;
     }

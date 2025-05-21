@@ -2,7 +2,6 @@ package org.example;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.http.util.Asserts;
 import org.example.entity.AppCredentials;
 import org.example.exception.AuthenticationError;
 import org.example.utils.CredentialsRetriever;
@@ -93,7 +92,10 @@ public class GoogleTokenManager {
             throw new RuntimeException(e);
         }
         String accessToken = (String) json.get("access_token");
-        Asserts.check(accessToken != null, "Refresh process: Access token is null");
+        if (accessToken == null) {
+            logger.error("Access token is null");
+            throw new RuntimeException("Access token is null");
+        }
         int expiresInSeconds = (Integer) json.get("expires_in");
         credentials.setAccessToken(accessToken);
         credentials.setAccessTokenExpiry(Instant.now().plusSeconds(expiresInSeconds));

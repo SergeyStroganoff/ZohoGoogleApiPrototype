@@ -4,8 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
-import org.example.entity.CalendarEvent;
-import org.example.entity.GoogleCalendar;
+import org.example.entity.google.CalendarEvent;
+import org.example.entity.google.GoogleCalendar;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

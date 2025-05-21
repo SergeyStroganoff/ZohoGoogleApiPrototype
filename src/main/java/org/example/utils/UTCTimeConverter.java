@@ -1,15 +1,24 @@
 package org.example.utils;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 public class UTCTimeConverter {
 
+    private UTCTimeConverter() {
+    }
     public static final String AMERICA_INDIANA_INDIANAPOLIS = "America/Indiana/Indianapolis";
+    public static String getUTCDateTimeNow() {
+        Instant nowUtc = Instant.now();
+        return nowUtc.toString();
+    }
+    public static String getUTCDateTimeWithOffset(long offset, ChronoUnit unit) {
+        Instant nowUtc = Instant.now();
+        Instant offsetTime = nowUtc.plus(offset, unit);
+        return offsetTime.toString();
+    }
 
     /**
      * Converts a given date and time to UTC format.
@@ -23,7 +32,7 @@ public class UTCTimeConverter {
      * @param timeZone the time zone (e.g., "America/Indiana/Indianapolis")
      * @return the UTC date and time in ISO-8601 format
      */
-    public String getUTCDateTime(int year, int month, int day, int hour, int minute, int second, String timeZone) {
+    public static String getUTCDateTime(int year, int month, int day, int hour, int minute, int second, String timeZone) {
         LocalDateTime localDateTime = LocalDateTime.of(year, month, day, hour, minute, second);
         // Валидация параметров
         Objects.requireNonNull(timeZone, "Часовой пояс не может быть null");
@@ -35,16 +44,16 @@ public class UTCTimeConverter {
     /**
      * Converts a given date and time to UTC format using the default time zone:America/Indiana/Indianapolis.
      *
-     * @param year
-     * @param month
-     * @param day
-     * @param hour
-     * @param minute
-     * @param second
-     * @return
+     * @param year   integer
+     * @param month  integer
+     * @param day    integer
+     * @param hour   integer
+     * @param minute integer
+     * @param second integer
+     * @return the UTC date and time in ISO-8601 format
      */
 
-    public String getUTCDateTime(int year, int month, int day, int hour, int minute, int second) {
+    public static String getUTCDateTime(int year, int month, int day, int hour, int minute, int second) {
         return getUTCDateTime(year, month, day, hour, minute, second, AMERICA_INDIANA_INDIANAPOLIS);
     }
 
@@ -55,12 +64,12 @@ public class UTCTimeConverter {
      * @return the LocalDateTime object
      */
 
-    public LocalDateTime covertGoogleApiTimeToLocalDateTime(String googleApiTime) {
+    public static LocalDateTime covertGoogleApiTimeToLocalDateTime(String googleApiTime) {
         // Example Google API time format: "2025-01-01T12:00:00Z"
         // Parsing the Google API time string to LocalDateTime
         // Note: The 'Z' at the end indicates UTC time
         // You can replace this with your actual Google API time string
-        // String googleApiTime = "2025-01-01T12:00:00Z";
+        //  googleApiTime = "2025-01-01T12:00:00Z";
         return LocalDateTime.parse(googleApiTime, DateTimeFormatter.ISO_INSTANT);
     }
 }
