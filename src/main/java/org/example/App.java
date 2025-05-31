@@ -10,6 +10,13 @@ import org.slf4j.Logger;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
+//todo: распарсить евент извлечь customer
+// сходить в базу данных и проверить обработан ли event
+// пойти в ZOHO и проверить есть ли такой customer
+// если нет, то создать его
+// обратиться в гуг map и посчитать расстояние от работы до клиента и обратно
+// создать запись пробега в базе данных или Exell
+
 public class App {
     private static final Logger logger = org.slf4j.LoggerFactory.getLogger(App.class);
     public static void main(String[] args) throws Exception {

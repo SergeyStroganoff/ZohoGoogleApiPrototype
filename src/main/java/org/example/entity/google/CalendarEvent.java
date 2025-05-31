@@ -22,6 +22,7 @@ public class CalendarEvent {
     private String htmlLink;
     private String created;
     private String updated;
+    // more important field
     private String summary;
     private String description;
     private String location;
