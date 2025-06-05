@@ -53,6 +53,7 @@ public class CalendarEvent {
     @NoArgsConstructor
     @Getter
     @Setter
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Creator {
         private String email;
         private boolean self;
@@ -61,6 +62,7 @@ public class CalendarEvent {
     @NoArgsConstructor
     @Getter
     @Setter
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Organizer {
         private String email;
         private boolean self;
@@ -69,6 +71,7 @@ public class CalendarEvent {
     @NoArgsConstructor
     @Getter
     @Setter
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class EventDateTime {
         private String dateTime;
         private String timeZone;
@@ -77,6 +80,7 @@ public class CalendarEvent {
     @NoArgsConstructor
     @Getter
     @Setter
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Attendee {
         private String email;
         private boolean organizer;
