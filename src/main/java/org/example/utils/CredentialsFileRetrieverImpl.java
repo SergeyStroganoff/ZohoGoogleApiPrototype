@@ -20,8 +20,6 @@ public class CredentialsFileRetrieverImpl implements CredentialsRetriever {
     public static final String CREDENTIALS_JSON = "/credentials.json";
     private final Logger logger = LoggerFactory.getLogger(CredentialsFileRetrieverImpl.class);
     private static final ObjectMapper objectMapper = JsonUtils.OBJECT_MAPPER;
-
-
     @Override
     public AppCredentials readCredentials() throws IOException {
 

@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class DistanceGoogleMatrixResponse {
+public class DistanceGoogleMatrix {
     @JsonAlias("destination_addresses")
     private String[] destinationAddresses;
     @JsonAlias("origin_addresses")
@@ -24,7 +24,7 @@ public class DistanceGoogleMatrixResponse {
      * Status of the response.
      * Indicates whether the request was successful or if there were errors.
      */
-    private GoogleMatrixResponseStatus status;
+    private GoogleMatrixStatus status;
 
     public void setDestinationAddresses(String[] destinationAddresses) {
         this.destinationAddresses = destinationAddresses;
@@ -40,7 +40,7 @@ public class DistanceGoogleMatrixResponse {
 
     @JsonSetter("status")
     public void setStatus(String status) {
-        this.status = GoogleMatrixResponseStatus.fromValue(status);
+        this.status = GoogleMatrixStatus.fromValue(status);
     }
 }
 

@@ -16,5 +16,5 @@ import lombok.Setter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GoogleMatrixRow {
     @JsonAlias("elements")
-    private MatrixElements[] elements;
+    private RouteMatrixElement[] elements;
 }

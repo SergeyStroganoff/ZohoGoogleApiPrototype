@@ -1,6 +1,6 @@
 package org.example.entity.google;
 
-public enum GoogleMatrixResponseStatus {
+public enum GoogleMatrixStatus {
     OK("OK"),
     INVALID_REQUEST("INVALID_REQUEST"),
     MAX_ELEMENTS_EXCEEDED("MAX_ELEMENTS_EXCEEDED"),
@@ -11,19 +11,20 @@ public enum GoogleMatrixResponseStatus {
 
     private final String value;
 
-    GoogleMatrixResponseStatus(String value) {
+    GoogleMatrixStatus(String value) {
         this.value = value;
     }
 
-    public String getValue() {
-        return value;
-    }
-    public static GoogleMatrixResponseStatus fromValue(String value) {
-        for (GoogleMatrixResponseStatus status : values()) {
+    public static GoogleMatrixStatus fromValue(String value) {
+        for (GoogleMatrixStatus status : values()) {
             if (status.value != null && status.value.equalsIgnoreCase(value)) {
                 return status;
             }
         }
         return UNKNOWN_STATUS;  // Возвращаем UNKNOWN_STATUS, если значение не найдено
+    }
+
+    public String getValue() {
+        return value;
     }
 }
