@@ -2,6 +2,7 @@ package org.example.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Setter;
 import org.example.entity.google.DistanceGoogleMatrix;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,15 +17,18 @@ import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
 
+@Setter
 public class GoogleRouteService implements RouteService {
     private static final Logger logger = LoggerFactory.getLogger(GoogleRouteService.class);
-    private final String apiKey;
     private static final String GOOGLE_MAP_API_URL = "https://maps.googleapis.com/maps/api/distancematrix/json";
-    private final HttpClient httpClient = HttpClient.newHttpClient();
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final String apiKey;
+    private HttpClient httpClient;
+    private ObjectMapper objectMapper;
 
-    public GoogleRouteService(String apiKey) {
+    public GoogleRouteService(String apiKey, HttpClient httpClient, ObjectMapper objectMapper) {
         this.apiKey = apiKey;
+        this.httpClient = httpClient;
+        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -53,7 +57,7 @@ public class GoogleRouteService implements RouteService {
             logger.info("Successfully received response from google map");
             logger.debug("Response body: {}", response.body());
         } else {
-            logger.error("Failed to fetch data. Status: {} Body: {}", response.statusCode(), response.body());
+            logger.error("Failed to request data. Status: {} Body: {}", response.statusCode(), response.body());
             return Optional.empty();
         }
         return parseResponse(response.body());
@@ -62,6 +66,10 @@ public class GoogleRouteService implements RouteService {
     private Optional<DistanceGoogleMatrix> parseResponse(String responseBody) {
         try {
             DistanceGoogleMatrix googleMatrix = objectMapper.readValue(responseBody, DistanceGoogleMatrix.class);
+            if (googleMatrix == null) {
+                logger.error("Parsed response is null. Response body: {}", responseBody);
+                return Optional.empty();
+            }
             return Optional.of(googleMatrix);
         } catch (JsonProcessingException e) {
             logger.error("Error parsing response from Google Maps API: {}", e.getMessage());
