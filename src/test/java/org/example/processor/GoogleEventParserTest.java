@@ -1,11 +1,13 @@
 package org.example.processor;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.val;
 import org.example.entity.Customer;
 import org.example.service.GoogleCalendarService;
 import org.junit.jupiter.api.Test;
 
 import java.io.InputStream;
+import java.net.http.HttpClient;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
@@ -14,7 +16,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GoogleEventParserTest {
     private final GoogleEventParser googleEventParser = new GoogleEventParser();
-    private final GoogleCalendarService googleCalendarService = new GoogleCalendarService("test_token");
+    private final HttpClient httpClient = HttpClient.newHttpClient();
+    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final GoogleCalendarService googleCalendarService = new GoogleCalendarService("access_token", httpClient, objectMapper);
 
     private final String delimiter = "#";
 
@@ -78,7 +82,6 @@ class GoogleEventParserTest {
     //todo: parse customer from summary
     @Test
     void testParseCalendyCustomerReturnCustomer() {
-
     }
 }
 

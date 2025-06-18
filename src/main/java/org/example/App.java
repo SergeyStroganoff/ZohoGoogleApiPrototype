@@ -1,5 +1,6 @@
 package org.example;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.entity.google.CalendarEvent;
 import org.example.service.GoogleCalendarService;
 import org.example.utils.CredentialsFileRetrieverImpl;
@@ -7,6 +8,7 @@ import org.example.utils.CredentialsRetriever;
 import org.example.utils.UTCTimeConverter;
 import org.slf4j.Logger;
 
+import java.net.http.HttpClient;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
@@ -23,9 +25,11 @@ public class App {
         CredentialsRetriever credentialsReader = new CredentialsFileRetrieverImpl();
         GoogleTokenManager tokenManager = new GoogleTokenManager(credentialsReader);
         String token = tokenManager.getNewAccessToken();
-        GoogleCalendarService googleCalendarService = new GoogleCalendarService(token);
+        HttpClient httpClient = HttpClient.newHttpClient();
+        ObjectMapper objectMapper = new ObjectMapper();
+        GoogleCalendarService googleCalendarService = new GoogleCalendarService(token, httpClient, objectMapper);
         // Получаем список всех событий
-        //List<CalendarEvent> events = googleCalendarService.getAllEvents();
+        // List<CalendarEvent> events = googleCalendarService.getAllEvents();
         // Получаем события за семь дней начиная с сегодняшнего дня
         String startDate = UTCTimeConverter.getUTCDateTimeNow();
         logger.info("Get all events with Start date: {}", startDate);

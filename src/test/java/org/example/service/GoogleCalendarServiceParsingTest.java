@@ -1,13 +1,17 @@
 package org.example.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.entity.google.CalendarEvent;
 import org.junit.jupiter.api.Test;
 
+import java.net.http.HttpClient;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class GoogleCalendarServiceTest {
+class GoogleCalendarServiceParsingTest {
+    HttpClient httpClient = HttpClient.newHttpClient();
+    ObjectMapper objectMapper = new ObjectMapper();
 
     String jsonGoogleCalendarEvent = """
             {"items": [{
@@ -62,7 +66,7 @@ class GoogleCalendarServiceTest {
     void parseEvents_ShouldReturnCorrectlyMappedEntity() {
         // Arrange
         String json = jsonGoogleCalendarEvent;
-        GoogleCalendarService googleCalendarService = new GoogleCalendarService("access_token");
+        GoogleCalendarService googleCalendarService = new GoogleCalendarService("access_token", httpClient, objectMapper);
 
         // Expected values
         String expectedId = "frf34f34r343r34r343434300000";
@@ -108,7 +112,7 @@ class GoogleCalendarServiceTest {
     void parseEvents_ShouldHandleEmptyJson() {
         // Arrange
         String emptyJson = "{}";
-        GoogleCalendarService googleCalendarService = new GoogleCalendarService("access_token");
+        GoogleCalendarService googleCalendarService = new GoogleCalendarService("access_token", httpClient, objectMapper);
 
         // Act & Assert
         assertThrows(IllegalArgumentException.class,
@@ -120,7 +124,7 @@ class GoogleCalendarServiceTest {
     void parseEvents_ShouldHandleMalformedJson() {
         // Arrange
         String malformedJson = "{invalid json}";
-        GoogleCalendarService googleCalendarService = new GoogleCalendarService("access_token");
+        GoogleCalendarService googleCalendarService = new GoogleCalendarService("access_token", httpClient, objectMapper);
 
         // Act & Assert
         assertThrows(RuntimeException.class,

@@ -16,13 +16,19 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
 
-@AllArgsConstructor
+
 public class GoogleCalendarService {
     private static final Logger logger = LoggerFactory.getLogger(GoogleCalendarService.class);
     private final String accessToken;
     private static final String CALENDAR_API_URL = "https://www.googleapis.com/calendar/v3/calendars/primary/events";
-    private final HttpClient httpClient = HttpClient.newHttpClient();
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final HttpClient httpClient;
+    private final ObjectMapper objectMapper;
+
+    public GoogleCalendarService(String accessToken, HttpClient httpClient, ObjectMapper objectMapper) {
+        this.accessToken = accessToken;
+        this.httpClient = httpClient;
+        this.objectMapper = objectMapper;
+    }
 
     //todo: добавить метод для получения списка календарей
     public List<GoogleCalendar> getCalendarList() throws IOException, InterruptedException {
