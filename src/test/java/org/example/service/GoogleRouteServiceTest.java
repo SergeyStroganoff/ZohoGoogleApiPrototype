@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.MockHttpResponse;
 import org.example.entity.google.DistanceGoogleMatrix;
 import org.example.entity.google.GoogleMatrixStatus;
+import org.example.utils.JsonUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,7 +26,7 @@ class GoogleRouteServiceTest {
 
     @Mock
     HttpClient httpClient;
-    ObjectMapper objectMapper = new ObjectMapper();
+    ObjectMapper objectMapper =  JsonUtils.OBJECT_MAPPER;
     @InjectMocks
     GoogleRouteService googleRouteService;
 

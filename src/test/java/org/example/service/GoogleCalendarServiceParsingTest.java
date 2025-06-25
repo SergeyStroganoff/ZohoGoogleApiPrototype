@@ -2,6 +2,7 @@ package org.example.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.entity.google.CalendarEvent;
+import org.example.utils.JsonUtils;
 import org.junit.jupiter.api.Test;
 
 import java.net.http.HttpClient;
@@ -11,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GoogleCalendarServiceParsingTest {
     HttpClient httpClient = HttpClient.newHttpClient();
-    ObjectMapper objectMapper = new ObjectMapper();
+    ObjectMapper objectMapper =  JsonUtils.OBJECT_MAPPER;
 
     String jsonGoogleCalendarEvent = """
             {"items": [{

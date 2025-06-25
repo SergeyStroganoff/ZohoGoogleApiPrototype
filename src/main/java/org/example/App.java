@@ -5,6 +5,7 @@ import org.example.entity.google.CalendarEvent;
 import org.example.service.GoogleCalendarService;
 import org.example.utils.CredentialsFileRetrieverImpl;
 import org.example.utils.CredentialsRetriever;
+import org.example.utils.JsonUtils;
 import org.example.utils.UTCTimeConverter;
 import org.slf4j.Logger;
 
@@ -23,10 +24,10 @@ public class App {
     private static final Logger logger = org.slf4j.LoggerFactory.getLogger(App.class);
     public static void main(String[] args) throws Exception {
         CredentialsRetriever credentialsReader = new CredentialsFileRetrieverImpl();
-        GoogleTokenManager tokenManager = new GoogleTokenManager(credentialsReader);
-        String token = tokenManager.getNewAccessToken();
+        TokenManager tokenManager = new TokenManager(credentialsReader);
+        String token = tokenManager.getGoogleCalendarAccessToken();
         HttpClient httpClient = HttpClient.newHttpClient();
-        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectMapper objectMapper = JsonUtils.OBJECT_MAPPER;
         GoogleCalendarService googleCalendarService = new GoogleCalendarService(token, httpClient, objectMapper);
         // Получаем список всех событий
         // List<CalendarEvent> events = googleCalendarService.getAllEvents();
