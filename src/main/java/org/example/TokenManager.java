@@ -40,14 +40,12 @@ public class TokenManager {
         this.credentialsRetriever = credentialsRetriever;
         credentials = credentialsInitialization(credentials);
     }
-
     /**
      * Get the Google Maps API key from the credentials.
      *
      * @return The Google Maps API key.
      * @throws CredentialsRetrieverException If there is an error retrieving the credentials.
      */
-
     public String getGoogleMapAPIKey() throws CredentialsRetrieverException {
         return credentials.getMapCredentials().getApiKey();
     }
