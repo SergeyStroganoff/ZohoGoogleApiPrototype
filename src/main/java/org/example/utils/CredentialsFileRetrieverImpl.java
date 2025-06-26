@@ -3,6 +3,7 @@ package org.example.utils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.val;
 import org.example.entity.AppCredentials;
+import org.example.exception.CredentialsRetrieverRuntimeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,7 +27,7 @@ public class CredentialsFileRetrieverImpl implements CredentialsRetriever {
       try (InputStream inputStream = CredentialsFileRetrieverImpl.class.getResourceAsStream(CREDENTIALS_JSON)) {
           if (inputStream == null) {
               logger.error("File not found: {}", CREDENTIALS_JSON);
-              throw new RuntimeException("File not found!");
+              throw new CredentialsRetrieverRuntimeException("File not found!");
           }
 
           val credentials = objectMapper.readValue(inputStream, AppCredentials.class);

@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.net.http.HttpClient;
 
-public class GoogleRouteServiceIntegrationTest {
+class GoogleRouteServiceIntegrationTest {
     /**
      * Tests the Google Maps API for route estimates.
      * This test is intended to be run against a real Google Maps API endpoint.
