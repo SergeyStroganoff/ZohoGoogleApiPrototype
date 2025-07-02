@@ -1,4 +1,4 @@
-package org.example.service;
+package org.example.service.google;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -29,8 +29,7 @@ public class GoogleCalendarService {
         this.objectMapper = objectMapper;
     }
 
-    //todo: добавить метод для получения списка календарей
-    public List<GoogleCalendar> getCalendarList() throws IOException, InterruptedException {
+    public List<GoogleCalendar> getCalendarList() {
         throw new UnsupportedOperationException("Method not implemented yet");
     }
 

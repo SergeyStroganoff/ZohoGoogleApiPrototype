@@ -14,7 +14,6 @@ import java.io.InputStream;
  * CredentialsFileRetrieverImpl is a class that retrieves and saves application credentials from resource a JSON file.
  * Writes the credentials to a file in the src/main/resources (the approach is not recommended for production and jar file).
  */
-
 public class CredentialsFileRetrieverImpl implements CredentialsRetriever {
 
     public static final String FILE_PATH = "src/main/resources/credentials.json";

@@ -15,7 +15,6 @@ public interface CredentialsRetriever {
      * @throws IOException if an error occurs while reading the file
      */
     AppCredentials readCredentials() throws IOException;
-
     /**
      * Saves the application credentials to a specified file.
      *

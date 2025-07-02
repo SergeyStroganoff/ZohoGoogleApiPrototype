@@ -2,6 +2,7 @@ package org.example.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.entity.google.CalendarEvent;
+import org.example.service.google.GoogleCalendarService;
 import org.example.utils.JsonUtils;
 import org.junit.jupiter.api.Test;
 

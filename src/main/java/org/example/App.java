@@ -2,7 +2,7 @@ package org.example;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.entity.google.CalendarEvent;
-import org.example.service.GoogleCalendarService;
+import org.example.service.google.GoogleCalendarService;
 import org.example.utils.CredentialsFileRetrieverImpl;
 import org.example.utils.CredentialsRetriever;
 import org.example.utils.JsonUtils;
@@ -10,6 +10,7 @@ import org.example.utils.UTCTimeConverter;
 import org.slf4j.Logger;
 
 import java.net.http.HttpClient;
+import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
@@ -26,7 +27,10 @@ public class App {
         CredentialsRetriever credentialsReader = new CredentialsFileRetrieverImpl();
         TokenManager tokenManager = new TokenManager(credentialsReader);
         String token = tokenManager.getGoogleCalendarAccessToken();
-        HttpClient httpClient = HttpClient.newHttpClient();
+        HttpClient httpClient = HttpClient.newBuilder()
+                .version(HttpClient.Version.HTTP_2)
+                .connectTimeout(Duration.ofSeconds(10))
+                .build();
         ObjectMapper objectMapper = JsonUtils.OBJECT_MAPPER;
         GoogleCalendarService googleCalendarService = new GoogleCalendarService(token, httpClient, objectMapper);
         // Получаем список всех событий

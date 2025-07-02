@@ -3,7 +3,7 @@ package org.example.processor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.val;
 import org.example.entity.Customer;
-import org.example.service.GoogleCalendarService;
+import org.example.service.google.GoogleCalendarService;
 import org.junit.jupiter.api.Test;
 
 import java.io.InputStream;

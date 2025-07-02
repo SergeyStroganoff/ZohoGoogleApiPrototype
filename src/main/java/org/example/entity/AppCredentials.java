@@ -37,6 +37,10 @@ public class AppCredentials {
     @Setter
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class ZohoCredentials {
+        @JsonProperty("client_id")
+        private String clientId;
+        @JsonProperty("client_secret")
+        private String clientSecret;
         @JsonProperty("access_token")
         private String accessToken;
         @JsonProperty("refresh_token")
