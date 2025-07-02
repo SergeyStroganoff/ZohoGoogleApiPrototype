@@ -49,7 +49,6 @@ public class GoogleCalendarService {
         return parseEvents(response.body());
     }
 
-
     /**
      * Fetches calendar events for a specific date range.
      *
