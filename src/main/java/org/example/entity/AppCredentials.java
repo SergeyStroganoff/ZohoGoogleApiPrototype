@@ -47,6 +47,8 @@ public class AppCredentials {
         private String refreshToken;
         @JsonProperty("token_expiry")
         private Instant accessTokenExpiry;
+        @JsonProperty("organisation_id")
+        private String organisationId;
     }
 
     @Getter

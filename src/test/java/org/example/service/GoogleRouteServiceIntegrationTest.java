@@ -1,6 +1,7 @@
 package org.example.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.TokenManager;
 import org.example.entity.google.DistanceGoogleMatrix;
 import org.example.entity.google.GoogleMatrixStatus;
 import org.example.service.google.GoogleRouteService;
@@ -8,6 +9,7 @@ import org.example.utils.CredentialsFileRetrieverImpl;
 import org.example.utils.CredentialsRetriever;
 import org.example.utils.JsonUtils;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -24,10 +26,12 @@ class GoogleRouteServiceIntegrationTest {
      * @throws Exception
      */
     @Test
+    @Tag("integration")
     void getRouteEstimate_ReturnRealEstimateResponse() throws Exception {
         // given
         CredentialsRetriever credentialsRetriever = new CredentialsFileRetrieverImpl();
-        String apiKey = credentialsRetriever.readCredentials().getMapCredentials().getApiKey();
+        TokenManager tokenManager = new TokenManager(credentialsRetriever);
+        String apiKey = tokenManager.getGoogleMapAPIKey();
         HttpClient httpClient = HttpClient.newHttpClient();
         ObjectMapper objectMapper = JsonUtils.OBJECT_MAPPER;
         GoogleRouteService googleRouteService = new GoogleRouteService(apiKey, httpClient, objectMapper);

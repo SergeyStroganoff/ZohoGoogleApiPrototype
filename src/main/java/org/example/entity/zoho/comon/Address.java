@@ -2,6 +2,7 @@ package org.example.entity.zoho.comon;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,13 +14,13 @@ import lombok.Setter;
 public class Address {
     private String attention;
 
-    @JsonAlias("address")
+    @JsonProperty("address")
     private String addressLine1;
 
-    @JsonAlias("street2")
+    @JsonProperty("street2")
     private String addressLine2;
 
-    @JsonAlias("state_code")
+    @JsonProperty("state_code")
     private String stateCode;
 
     private String city;

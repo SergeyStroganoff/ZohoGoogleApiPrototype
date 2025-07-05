@@ -1,7 +1,7 @@
 package org.example.entity.zoho.comon;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,16 +17,16 @@ import lombok.Setter;
 public class ContactPerson {
     private String salutation;
 
-    @JsonAlias("first_name")
+    @JsonProperty("first_name")
     private String firstName;
 
-    @JsonAlias("last_name")
+    @JsonProperty("last_name")
     private String lastName;
 
     private String email;
     private String phone;
     private String mobile;
 
-    @JsonAlias("is_primary_contact")
+    @JsonProperty("is_primary_contact")
     private Boolean isPrimaryContact;
 }

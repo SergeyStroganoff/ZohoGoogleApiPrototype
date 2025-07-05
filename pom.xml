@@ -123,16 +123,25 @@
             <goals>
               <goal>shade</goal>
             </goals>
-            <configuration>
-              <transformers>
-                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                  <mainClass>org.example.App</mainClass>
-                </transformer>
-              </transformers>
-            </configuration>
+              <configuration>
+                  <transformers>
+                      <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                          <mainClass>org.example.App</mainClass>
+                      </transformer>
+                  </transformers>
+              </configuration>
           </execution>
         </executions>
       </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>3.2.5</version>
+            <configuration>
+                <excludedGroups>integration</excludedGroups>
+            </configuration>
+        </plugin>
     </plugins>
   </build>
 </project>
+

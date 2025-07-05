@@ -40,10 +40,11 @@ public class ZohoContactService extends ZohoServiceAbstract {
      * @throws ZohoServiceException If there is an error during the HTTP request.
      */
     public ZohoContactResponse addNewContact(ZohoContactRequest contactRequest, String organisationId) throws JsonProcessingException {
-        logger.info("Adding new contact to Zoho: {}", contactRequest);
+        logger.info("Adding new contact to Zoho: {}", contactRequest.getContactName());
         String jsonPayload;
         try {
             jsonPayload = objectMapper.writeValueAsString(contactRequest);
+            logger.debug("Serialized ZohoContactRequest to JSON: {}", jsonPayload);
         } catch (JsonProcessingException e) {
             String msg = "Failed to serialize ZohoContactRequest to JSON: " + e.getMessage();
             logger.error(msg);

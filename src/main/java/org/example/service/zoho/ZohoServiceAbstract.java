@@ -16,9 +16,7 @@ import static org.example.service.zoho.ZohoContactService.*;
 
 public abstract class ZohoServiceAbstract {
     protected static final Logger logger = LoggerFactory.getLogger(ZohoServiceAbstract.class);
-
-    private static final String ZOHO_API_URL = "https://books.zoho.com/api/v3/";
-
+    private static final String ZOHO_INVOICE_API_URL = "https://www.zohoapis.com/invoice/v3/";
     private static final String HEADER_AUTHORIZATION = "Authorization";
     private static final String HEADER_ORG_ID = "X-com-zoho-invoice-organizationid";
     private static final String HEADER_CONTENT_TYPE = "Content-Type";
@@ -72,7 +70,7 @@ public abstract class ZohoServiceAbstract {
 
     protected HttpRequest buildPostRequest(String jsonPayload, String organisationId, String endPoint) {
         return HttpRequest.newBuilder()
-                .uri(URI.create(ZOHO_API_URL + endPoint))
+                .uri(URI.create(ZOHO_INVOICE_API_URL + endPoint))
                 .header(HEADER_AUTHORIZATION, ZOHO_OAUTHTOKEN_HEADER + accessToken)
                 .header(HEADER_ORG_ID, organisationId)
                 .header(HEADER_CONTENT_TYPE, CONTENT_TYPE_JSON)

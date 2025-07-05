@@ -2,6 +2,7 @@ package org.example.entity.zoho.comon;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,39 +17,39 @@ import lombok.Setter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DefaultTemplates {
 
-    @JsonAlias("invoice_template_id")
+    @JsonProperty("invoice_template_id")
     private String invoiceTemplateId;
 
-    @JsonAlias("invoice_template_name")
+    @JsonProperty("invoice_template_name")
     private String invoiceTemplateName;
 
-    @JsonAlias("estimate_template_id")
+    @JsonProperty("estimate_template_id")
     private String estimateTemplateId;
 
-    @JsonAlias("estimate_template_name")
+    @JsonProperty("estimate_template_name")
     private String estimateTemplateName;
 
-    @JsonAlias("creditnote_template_id")
+    @JsonProperty("creditnote_template_id")
     private String creditNoteTemplateId;
 
-    @JsonAlias("creditnote_template_name")
+    @JsonProperty("creditnote_template_name")
     private String creditNoteTemplateName;
 
-    @JsonAlias("invoice_email_template_id")
+    @JsonProperty("invoice_email_template_id")
     private String invoiceEmailTemplateId;
 
-    @JsonAlias("invoice_email_template_name")
+    @JsonProperty("invoice_email_template_name")
     private String invoiceEmailTemplateName;
 
-    @JsonAlias("estimate_email_template_id")
+    @JsonProperty("estimate_email_template_id")
     private String estimateEmailTemplateId;
 
-    @JsonAlias("estimate_email_template_name")
+    @JsonProperty("estimate_email_template_name")
     private String estimateEmailTemplateName;
 
-    @JsonAlias("creditnote_email_template_id")
+    @JsonProperty("creditnote_email_template_id")
     private String creditNoteEmailTemplateId;
 
-    @JsonAlias("creditnote_email_template_name")
+    @JsonProperty("creditnote_email_template_name")
     private String creditNoteEmailTemplateName;
 }

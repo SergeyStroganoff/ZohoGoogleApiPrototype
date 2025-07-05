@@ -2,6 +2,7 @@ package org.example.entity.zoho.contacts;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,93 +23,93 @@ import java.util.List;
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ZohoContact {
-    @JsonAlias("contact_id")
+    @JsonProperty("contact_id")
     private long contactId;
-    @JsonAlias("contact_name")
+    @JsonProperty("contact_name")
     private String contactName;
-    @JsonAlias("company_name")
+    @JsonProperty("company_name")
     private String companyName;
-    @JsonAlias("has_transaction")
+    @JsonProperty("has_transaction")
     private Boolean hasTransaction;
-    @JsonAlias("contact_type")
+    @JsonProperty("contact_type")
     private String contactType;
-    @JsonAlias("is_taxable")
+    @JsonProperty("is_taxable")
     private Boolean isTaxable;
-    @JsonAlias("tax_id")
+    @JsonProperty("tax_id")
     private Long taxId;
-    @JsonAlias("tds_tax_id")
+    @JsonProperty("tds_tax_id")
     private String tdsTaxId;
-    @JsonAlias("tax_name")
+    @JsonProperty("tax_name")
     private String taxName;
-    @JsonAlias("tax_percentage")
+    @JsonProperty("tax_percentage")
     private Double taxPercentage;
-    @JsonAlias("tax_authority_id")
+    @JsonProperty("tax_authority_id")
     private Long taxAuthorityId;
-    @JsonAlias("tax_exemption_id")
+    @JsonProperty("tax_exemption_id")
     private Long taxExemptionId;
-    @JsonAlias("tax_authority_name")
+    @JsonProperty("tax_authority_name")
     private String taxAuthorityName;
-    @JsonAlias("tax_exemption_code")
+    @JsonProperty("tax_exemption_code")
     private String taxExemptionCode;
-    @JsonAlias("place_of_contact")
+    @JsonProperty("place_of_contact")
     private String placeOfContact;
-    @JsonAlias("gst_no")
+    @JsonProperty("gst_no")
     private String gstNo;
-    @JsonAlias("vat_treatment")
+    @JsonProperty("vat_treatment")
     private String vatTreatment;
-    @JsonAlias("tax_treatment")
+    @JsonProperty("tax_treatment")
     private String taxTreatment;
-    @JsonAlias("tax_regime")
+    @JsonProperty("tax_regime")
     private String taxRegime;
-    @JsonAlias("legal_name")
+    @JsonProperty("legal_name")
     private String legalName;
-    @JsonAlias("is_tds_registered")
+    @JsonProperty("is_tds_registered")
     private Boolean isTdsRegistered;
-    @JsonAlias("gst_treatment")
+    @JsonProperty("gst_treatment")
     private String gstTreatment;
-    @JsonAlias("is_linked_with_zohocrm")
+    @JsonProperty("is_linked_with_zohocrm")
     private Boolean isLinkedWithZohocrm;
     private String website;
-    @JsonAlias("primary_contact_id")
+    @JsonProperty("primary_contact_id")
     private Long primaryContactId;
-    @JsonAlias("payment_terms")
+    @JsonProperty("payment_terms")
     private Integer paymentTerms;
-    @JsonAlias("payment_terms_label")
+    @JsonProperty("payment_terms_label")
     private String paymentTermsLabel;
-    @JsonAlias("currency_id")
+    @JsonProperty("currency_id")
     private Long currencyId;
-    @JsonAlias("currency_code")
+    @JsonProperty("currency_code")
     private String currencyCode;
-    @JsonAlias("currency_symbol")
+    @JsonProperty("currency_symbol")
     private String currencySymbol;
-    @JsonAlias("language_code")
+    @JsonProperty("language_code")
     private String languageCode;
-    @JsonAlias("outstanding_receivable_amount")
+    @JsonProperty("outstanding_receivable_amount")
     private Double outstandingReceivableAmount;
-    @JsonAlias("outstanding_receivable_amount_bcy")
+    @JsonProperty("outstanding_receivable_amount_bcy")
     private Double outstandingReceivableAmountBcy;
-    @JsonAlias("unused_credits_receivable_amount")
+    @JsonProperty("unused_credits_receivable_amount")
     private Double unusedCreditsReceivableAmount;
-    @JsonAlias("unused_credits_receivable_amount_bcy")
+    @JsonProperty("unused_credits_receivable_amount_bcy")
     private Double unusedCreditsReceivableAmountBcy;
     private String status;
-    @JsonAlias("payment_reminder_enabled")
+    @JsonProperty("payment_reminder_enabled")
     private Boolean paymentReminderEnabled;
-    @JsonAlias("custom_fields")
+    @JsonProperty("custom_fields")
     private List<CustomField> customFields;
-    @JsonAlias("billing_address")
+    @JsonProperty("billing_address")
     private Address billingAddress;
-    @JsonAlias("shipping_address")
+    @JsonProperty("shipping_address")
     private Address shippingAddress;
     private String facebook;
     private String twitter;
-    @JsonAlias("contact_persons")
+    @JsonProperty("contact_persons")
     private List<ContactPerson> contactPersons;
-    @JsonAlias("default_templates")
+    @JsonProperty("default_templates")
     private DefaultTemplates defaultTemplates;
     private String notes;
-    @JsonAlias("created_time")
+    @JsonProperty("created_time")
     private String createdTime;
-    @JsonAlias("last_modified_time")
+    @JsonProperty("last_modified_time")
     private String lastModifiedTime;
 }
