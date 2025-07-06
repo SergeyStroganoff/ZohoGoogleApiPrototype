@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.TokenManager;
 import org.example.entity.zoho.contacts.ZohoContactRequest;
 import org.example.entity.zoho.contacts.ZohoContactResponse;
+import org.example.service.OAuthTokenRefresher;
 import org.example.utils.CredentialsFileRetrieverImpl;
 import org.example.utils.CredentialsRetriever;
 import org.example.utils.JsonUtils;
@@ -26,7 +27,8 @@ class ZohoContactServiceIntegrationTest {
     void integrationTest_AddNewContact() throws Exception {
         //given
         CredentialsRetriever credentialsRetriever = new CredentialsFileRetrieverImpl();
-        TokenManager tokenManager = new TokenManager(credentialsRetriever);
+        OAuthTokenRefresher oAuthTokenRefresher = new OAuthTokenRefresher(httpClient, objectMapper);
+        TokenManager tokenManager = new TokenManager(credentialsRetriever, oAuthTokenRefresher);
         String accessToken = tokenManager.getZOHOInvoiceAccessToken();
         String ORG_ID = tokenManager.getZOHOInvoiceOrganisationId();
         ZohoContactService contactService = new ZohoContactService(accessToken, httpClient, objectMapper);

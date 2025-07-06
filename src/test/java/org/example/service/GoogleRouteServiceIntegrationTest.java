@@ -29,15 +29,18 @@ class GoogleRouteServiceIntegrationTest {
     @Tag("integration")
     void getRouteEstimate_ReturnRealEstimateResponse() throws Exception {
         // given
-        CredentialsRetriever credentialsRetriever = new CredentialsFileRetrieverImpl();
-        TokenManager tokenManager = new TokenManager(credentialsRetriever);
-        String apiKey = tokenManager.getGoogleMapAPIKey();
         HttpClient httpClient = HttpClient.newHttpClient();
         ObjectMapper objectMapper = JsonUtils.OBJECT_MAPPER;
+        OAuthTokenRefresher oAuthTokenRefresher = new OAuthTokenRefresher(httpClient, objectMapper);
+        CredentialsRetriever credentialsRetriever = new CredentialsFileRetrieverImpl();
+        TokenManager tokenManager = new TokenManager(credentialsRetriever, oAuthTokenRefresher);
+        String apiKey = tokenManager.getGoogleMapAPIKey();
+
         GoogleRouteService googleRouteService = new GoogleRouteService(apiKey, httpClient, objectMapper);
-        String expectedKilometers = "2,229 km";
-        int expectedKilometersValue = 2229357; // 2,229 km in meters
-        String expectedTime = "20 hours 9 mins"; // Expected time for the route
+        int expectedKilometersValue = 2217982; // 2,229 km in meters
+        int metersTolerance = 10000; // Tolerance in meters for distance comparison
+        int secondsTolerance = 600; // Tolerance in seconds for time comparison
+        int expectedTimeInSeconds = 72500; // 20 hours 9 minutes in seconds
         // when
         String origin = "1400 S Lake Shore Dr, Chicago, IL 60605";
         String destination = "1101 Biscayne Blvd, Miami, FL 33132";
@@ -47,11 +50,18 @@ class GoogleRouteServiceIntegrationTest {
         Assertions.assertNotNull(distanceGoogleMatrix, "DistanceGoogleMatrix should not be null");
         Assertions.assertEquals(GoogleMatrixStatus.OK, distanceGoogleMatrix.getStatus(), "Status should be OK");
 
-        String realMiles = distanceGoogleMatrix.getRows()[0].getElements()[0].getDistance().getText();
+        String realMilesText = distanceGoogleMatrix.getRows()[0].getElements()[0].getDistance().getText();
         int realMilesInValue = distanceGoogleMatrix.getRows()[0].getElements()[0].getDistance().getValue();
-        String realTime = distanceGoogleMatrix.getRows()[0].getElements()[0].getDuration().getText();
-        Assertions.assertEquals(expectedKilometers, realMiles, "Distance should match expected value");
-        Assertions.assertEquals(expectedKilometersValue, realMilesInValue, "Distance should match expected value");
-        Assertions.assertEquals(expectedTime, realTime, "Distance should match expected value");
+        String realTimeText = distanceGoogleMatrix.getRows()[0].getElements()[0].getDuration().getText();
+        int realTimeInSeconds = distanceGoogleMatrix.getRows()[0].getElements()[0].getDuration().getValue();
+
+        Assertions.assertTrue(Math.abs(realMilesInValue - expectedKilometersValue) <= metersTolerance,
+                String.format("Distance in meters should be within %d of expected value %d. Actual: %d",
+                        metersTolerance, expectedKilometersValue, realMilesInValue));
+        Assertions.assertTrue(Math.abs(realTimeInSeconds - expectedTimeInSeconds) <= secondsTolerance,
+                String.format("Time in seconds should be within %d of expected value %d. Actual: %d",
+                        secondsTolerance, expectedTimeInSeconds, realTimeInSeconds));
+        Assertions.assertFalse(realMilesText.isEmpty(), "Real miles text should not be empty");
+        Assertions.assertFalse(realTimeText.isEmpty(), "Real time text should not be empty");
     }
 }

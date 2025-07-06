@@ -2,6 +2,7 @@ package org.example;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.entity.google.CalendarEvent;
+import org.example.service.OAuthTokenRefresher;
 import org.example.service.google.GoogleCalendarService;
 import org.example.utils.CredentialsFileRetrieverImpl;
 import org.example.utils.CredentialsRetriever;
@@ -24,13 +25,15 @@ import java.util.List;
 public class App {
     private static final Logger logger = org.slf4j.LoggerFactory.getLogger(App.class);
     public static void main(String[] args) throws Exception {
-        CredentialsRetriever credentialsReader = new CredentialsFileRetrieverImpl();
-        TokenManager tokenManager = new TokenManager(credentialsReader);
-        String token = tokenManager.getGoogleCalendarAccessToken();
         HttpClient httpClient = HttpClient.newBuilder()
                 .version(HttpClient.Version.HTTP_2)
                 .connectTimeout(Duration.ofSeconds(10))
                 .build();
+        CredentialsRetriever credentialsReader = new CredentialsFileRetrieverImpl();
+        OAuthTokenRefresher oAuthTokenRefresher = new OAuthTokenRefresher(httpClient, JsonUtils.OBJECT_MAPPER);
+        TokenManager tokenManager = new TokenManager(credentialsReader, oAuthTokenRefresher);
+        String token = tokenManager.getGoogleCalendarAccessToken();
+
         ObjectMapper objectMapper = JsonUtils.OBJECT_MAPPER;
         GoogleCalendarService googleCalendarService = new GoogleCalendarService(token, httpClient, objectMapper);
         // Получаем список всех событий

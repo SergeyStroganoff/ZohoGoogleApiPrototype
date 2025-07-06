@@ -56,6 +56,7 @@ class OAuthTokenRefresherTest {
         assertNotNull(token);
         assertEquals("test-token", token.accessToken());
         assertTrue(token.expiresAt().isAfter(Instant.now()));
+        verify(httpClient, times(1)).send(any(HttpRequest.class), any(HttpResponse.BodyHandler.class));
     }
 
     @Test

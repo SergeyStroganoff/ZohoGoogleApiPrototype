@@ -94,7 +94,6 @@ public class OAuthTokenRefresher {
         }
     }
 
-    @SuppressWarnings("unchecked")
     private AccessToken parseAccessToken(HttpResponse<String> response) {
         Map<String, Object> json;
         try {
