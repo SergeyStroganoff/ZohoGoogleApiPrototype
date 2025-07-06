@@ -88,7 +88,7 @@ public class TokenManager {
     public synchronized String getGoogleCalendarAccessToken() {
         Instant now = Instant.now();
         if (now.isAfter(credentials.getCalendarCredentials().getAccessTokenExpiry().minusSeconds(60))) {
-            refreshGoogleCalendarAccessToken();
+            refreshOAuthAccessToken();
         }
         return credentials.getCalendarCredentials().getAccessToken();
     }
@@ -97,7 +97,7 @@ public class TokenManager {
      * Refresh the access token using the refresh token.
      * It sends a POST request to the Google OAuth2 token endpoint with the required parameters.
      */
-    private void refreshGoogleCalendarAccessToken() {
+    private void refreshOAuthAccessToken() {
         String body = String.format("client_id=%s&client_secret=%s&refresh_token=%s&grant_type=refresh_token",
                 credentials.getCalendarCredentials().getClientId(),
                 credentials.getCalendarCredentials().getClientSecret(),
@@ -108,22 +108,28 @@ public class TokenManager {
         while (currentRetry < MAX_RETRIES) {
             try {
                 response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-                currentRetry++;
-            } catch (IOException | InterruptedException e) {
-                logger.error("Error sending request to refresh access token: {}", e.getMessage());
-            }
-            if (response != null) {
                 if (response.statusCode() >= HttpURLConnection.HTTP_OK && response.statusCode() < HttpURLConnection.HTTP_MULT_CHOICE) {
                     break;
                 } else if (response.statusCode() == HttpURLConnection.HTTP_UNAUTHORIZED || response.statusCode() == HttpURLConnection.HTTP_FORBIDDEN) {
-                    logger.error(ACCESS_DENIED_INVALID_OR_MISSING_CREDENTIALS);
+                    logger.error("Token refresh failed. Status: {}, Response: {}", response.statusCode(), response.body());
                     throw new AuthenticationError(ACCESS_DENIED_INVALID_OR_MISSING_CREDENTIALS + response.body());
                 }
+            } catch (IOException | InterruptedException e) {
+                logger.error("Error sending request to refresh access token: {}", e.getMessage());
             }
+            currentRetry++;
             if (currentRetry == MAX_RETRIES) {
                 logger.error("Max retries {} reached. Unable to refresh access token.", MAX_RETRIES);
                 String errorMessage = response != null ? response.body() : "No response received";
                 throw new RuntimeException("Max retries reached. Unable to refresh access token. " + errorMessage);
+            }
+            try {
+                long delayMillis = Math.min(1000, 100 * (1L << (currentRetry - 1))); // 100ms, 200ms, 400ms, ...
+                Thread.sleep(delayMillis);
+            } catch (InterruptedException ie) {
+                Thread.currentThread().interrupt();
+                logger.warn("Retry sleep interrupted");
+                break;
             }
         }
         Map<String, Object> json;
@@ -175,54 +181,10 @@ public class TokenManager {
      * Refresh the Zoho Invoice access token using the refresh token.
      * It sends a POST request to the Zoho OAuth2 token endpoint with the required parameters.
      */
-    //todo check this method
+    //todo develop this method
     private void refreshZOHOInvoiceAccessToken() {
-        String body = String.format("client_id=%s&client_secret=%s&refresh_token=%s&grant_type=refresh_token",
-                credentials.getZohoCredentials().getClientId(),
-                credentials.getZohoCredentials().getClientSecret(),
-                credentials.getZohoCredentials().getRefreshToken());
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(TOKEN_URL))
-                .header("Content-Type", "application/x-www-form-urlencoded")
-                .POST(HttpRequest.BodyPublishers.ofString(body))
-                .build();
-        int currentRetry = 0;
-        HttpResponse<String> response = null;
-        while (currentRetry < MAX_RETRIES) {
-            try {
-                response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-                currentRetry++;
-            } catch (IOException | InterruptedException e) {
-                logger.error("Error sending request to refresh Zoho access token: {}", e.getMessage());
-            }
-            if (currentRetry == MAX_RETRIES) {
-                logger.error("Max retries {} reached. Unable to refresh Zoho access token.", MAX_RETRIES);
-                throw new RuntimeException("Max retries reached. Unable to refresh Zoho access token. " + response.body() + " " + response.statusCode());
-            }
-            if (response != null && response.statusCode() == 200) {
-                currentRetry = MAX_RETRIES; // Exit the loop if the request was successful
-            }
-            if (response != null && (response.statusCode() == 400 || response.statusCode() == 401 || response.statusCode() == 403)) {
-                logger.error(ACCESS_DENIED_INVALID_OR_MISSING_CREDENTIALS);
-                throw new AuthenticationError(ACCESS_DENIED_INVALID_OR_MISSING_CREDENTIALS + response.body());
-            }
-        }
-        assert response != null;
+        throw new UnsupportedOperationException("Method refreshZOHOInvoiceAccessToken is not implemented yet.");
 
-        Map<String, Object> json;
-        try {
-            json = objectMapper.readValue(response.body(), Map.class);
-        } catch (JsonProcessingException e) {
-            logger.error("Error parsing JSON response: {}", e.getMessage());
-            throw new RuntimeException(e);
-        }
-        String accessToken = (String) json.get(ACCESS_TOKEN);
-        if (accessToken == null) {
-            logger.error(ACCESS_TOKEN_IS_NULL_MESSAGE);
-            throw new RuntimeException(ACCESS_TOKEN_IS_NULL_MESSAGE);
-        }
-        int expiresInSeconds = (Integer) json.get(EXPIRES_IN_PROP);
-        credentials.getZohoCredentials().setAccessToken(accessToken);
     }
 
     /**
@@ -235,7 +197,6 @@ public class TokenManager {
     public String getZOHOInvoiceOrganisationId() {
         if (credentials.getZohoCredentials() != null) {
             logger.debug("Retrieving Zoho Invoice organisation ID {}", credentials.getZohoCredentials().getOrganisationId());
-            //  throw new UnsupportedOperationException("Method getZOHOInvoiceOrganisationId is not implemented yet.");
             return credentials.getZohoCredentials().getOrganisationId();
         } else {
             logger.error(CREDENTIALS_ARE_NOT_INITIALIZED_MESSAGE);
