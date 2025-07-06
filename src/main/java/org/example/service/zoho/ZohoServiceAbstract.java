@@ -62,7 +62,7 @@ public abstract class ZohoServiceAbstract {
             case 14 -> "Invalid or expired access token.";
             case 1001 -> "Mandatory parameter is missing. Check the contact data.";
             case 1002 -> "Invalid parameter value.";
-            case 1005 -> CONTACT_ALREADY_EXISTS;
+            case 1005, 3062 -> CONTACT_ALREADY_EXISTS;
             case 1038 -> ZOHO_API_LIMIT_REACHED;
             default -> "Zoho error code " + error.getCode() + ": " + error.getMessage();
         };

@@ -60,12 +60,10 @@ public class TokenManager {
     public String getGoogleMapAPIKey() throws CredentialsRetrieverException {
         if (credentials.getMapCredentials() != null) {
             return credentials.getMapCredentials().getApiKey();
-
         } else {
             logger.error(CREDENTIALS_ARE_NOT_INITIALIZED_MESSAGE);
             throw new CredentialsRetrieverException(CREDENTIALS_ARE_NOT_INITIALIZED_MESSAGE);
         }
-
     }
 
     /**
@@ -83,7 +81,7 @@ public class TokenManager {
             );
             credentials.getCalendarCredentials().setAccessToken(accessToken.accessToken());
             credentials.getCalendarCredentials().setAccessTokenExpiry(accessToken.expiresAt());
-            //todo add method to save the new access token to the credentials file
+            credentialsRetriever.updateCredentials(credentials);
         }
         return credentials.getCalendarCredentials().getAccessToken();
     }
@@ -96,7 +94,6 @@ public class TokenManager {
      * @return The Zoho Invoice access token.
      * @throws CredentialsRetrieverException If there is an error retrieving the credentials.
      */
-    //todo check this method
     public String getZOHOInvoiceAccessToken() throws IOException, InterruptedException {
         Instant now = Instant.now();
         if (now.isAfter(credentials.getZohoCredentials().getAccessTokenExpiry().minusSeconds(60))) {
@@ -108,7 +105,7 @@ public class TokenManager {
             );
             credentials.getZohoCredentials().setAccessToken(accessToken.accessToken());
             credentials.getZohoCredentials().setAccessTokenExpiry(accessToken.expiresAt());
-            //todo add method to save the new access token to the credentials file
+            credentialsRetriever.updateCredentials(credentials);
         }
         return credentials.getZohoCredentials().getAccessToken();
     }
@@ -119,7 +116,6 @@ public class TokenManager {
      * @return The Zoho Invoice organisation ID.
      * @throws CredentialsRetrieverException If there is an error retrieving the credentials.
      */
-    //todo check this method
     public String getZOHOInvoiceOrganisationId() {
         if (credentials.getZohoCredentials() != null) {
             logger.debug("Retrieving Zoho Invoice organisation ID {}", credentials.getZohoCredentials().getOrganisationId());

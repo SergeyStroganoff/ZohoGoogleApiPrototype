@@ -32,14 +32,14 @@ public class CredentialsFileRetrieverImpl implements CredentialsRetriever {
                 logger.error("File not found: {}", CREDENTIALS_JSON);
                 throw new CredentialsRetrieverRuntimeException("File not found !");
             }
-
             val credentials = objectMapper.readValue(inputStream, AppCredentials.class);
             logger.info(CREDENTIALS_LOADED_SUCCESSFULLY);
             return credentials;
         }
     }
+
     @Override
-    public void saveCredentials(AppCredentials credentials) {
+    public void updateCredentials(AppCredentials credentials) {
         try {
             objectMapper.writeValue(new java.io.File(FILE_PATH), credentials);
             logger.info(CREDENTIALS_UPDATED_SUCCESSFULLY_MESSAGE, FILE_PATH);

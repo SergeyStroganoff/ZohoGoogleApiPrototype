@@ -22,6 +22,7 @@ import java.io.IOException;
  */
 
 public class AwsParameterStoreCredentialsRetriever implements CredentialsRetriever {
+    public static final String CREDENTIALS_UPDATE_FAIL_MESSAGE = "Failed to save credentials to AWS Parameter Store";
     private final Logger logger = LoggerFactory.getLogger(AwsParameterStoreCredentialsRetriever.class);
     public static final String DEFAULT_PARAMETER_NAME = "/prod/calendar-zoho/credentials";
     private final String parameterName;
@@ -57,7 +58,7 @@ public class AwsParameterStoreCredentialsRetriever implements CredentialsRetriev
     }
 
     @Override
-    public void saveCredentials(AppCredentials credentials) {
+    public void updateCredentials(AppCredentials credentials) {
         try {
             String json = objectMapper.writeValueAsString(credentials);
             PutParameterRequest putRequest = PutParameterRequest.builder()
@@ -68,8 +69,8 @@ public class AwsParameterStoreCredentialsRetriever implements CredentialsRetriev
                     .build();
             ssmClient.putParameter(putRequest);
         } catch (Exception e) {
-            logger.error("Failed to save credentials to Parameter Store: {}", e.getMessage());
-            throw new CredentialsRetrieverRuntimeException("Failed to save credentials to Parameter Store", e);
+            logger.error(CREDENTIALS_UPDATE_FAIL_MESSAGE + " {}", e.getMessage());
+            throw new CredentialsRetrieverRuntimeException(CREDENTIALS_UPDATE_FAIL_MESSAGE, e);
         }
     }
 }

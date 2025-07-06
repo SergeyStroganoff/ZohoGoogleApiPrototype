@@ -68,9 +68,9 @@ public class ZohoContactService extends ZohoServiceAbstract {
                 if (response.statusCode() == 429) {
                     throw new ZohoServiceException(ZOHO_API_LIMIT_REACHED);
                 }
-                if (error != null && error.getCode() == 1005) {
+                if (error != null && error.getCode() == 3062) {
                     ZohoContactResponse existingContactResponse = new ZohoContactResponse();
-                    existingContactResponse.setCode(1005);
+                    existingContactResponse.setCode(3062);
                     existingContactResponse.setMessage(CONTACT_ALREADY_EXISTS);
                     return existingContactResponse;
                 }

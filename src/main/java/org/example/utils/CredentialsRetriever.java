@@ -15,10 +15,11 @@ public interface CredentialsRetriever {
      * @throws IOException if an error occurs while reading the file
      */
     AppCredentials readCredentials() throws IOException;
+
     /**
      * Saves the application credentials to a specified file.
      *
      * @param credentials the application credentials to save
      */
-    void saveCredentials(AppCredentials credentials);
+    void updateCredentials(AppCredentials credentials);
 }
