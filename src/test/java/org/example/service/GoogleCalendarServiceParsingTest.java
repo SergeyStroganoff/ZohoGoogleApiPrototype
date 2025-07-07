@@ -6,6 +6,7 @@ import org.example.service.google.GoogleCalendarService;
 import org.example.utils.JsonUtils;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.net.http.HttpClient;
 import java.util.List;
 
@@ -65,7 +66,7 @@ class GoogleCalendarServiceParsingTest {
              """;
 
     @Test
-    void parseEvents_ShouldReturnCorrectlyMappedEntity() {
+    void parseEvents_ShouldReturnCorrectlyMappedEntity() throws IOException {
         // Arrange
         String json = jsonGoogleCalendarEvent;
         GoogleCalendarService googleCalendarService = new GoogleCalendarService("access_token", httpClient, objectMapper);
