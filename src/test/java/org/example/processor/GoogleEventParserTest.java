@@ -15,20 +15,19 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 class GoogleEventParserTest {
+    public static final String FILE_PATH = "calendar_test.json";
+    private static final String delimiter = "#";
+    private static final String calandyDescription = "Event Name: Diagnostic visit\\n\\nHi there!\\n\\nIn our service area, we offer diagnostic services. \\n\\nLocation: 11111 W Ratliff Rd\\n\\nPlease share the appliance type and model to help us better prepare for our visit.: Tractor Model DW80US\\n\\nPlease describe the issue.: Turns on but won't run. Address says Spencer but that's just the post office that delivers the mail.\\n\\nIf convenient for you, please provide a phone number so we can connect before the visit.: +1 312-922-2388\\n\\nNeed to make changes to this event?\\nCancel: https://calendly.com/cancellations/20b46974\\nReschedule: https://calendly.com/reschedulings/6974\\n\\nPowered by Calendly.com\\n\",";
     private final GoogleEventParser googleEventParser = new GoogleEventParser();
     private final HttpClient httpClient = HttpClient.newHttpClient();
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final GoogleCalendarService googleCalendarService = new GoogleCalendarService("access_token", httpClient, objectMapper);
 
-    private final String delimiter = "#";
 
-    private final String calandyDescription = "Event Name: Diagnostic visit\\n\\nHi there!\\n\\nIn our service area, we offer diagnostic services. \\n\\nLocation: 11111 W Ratliff Rd\\n\\nPlease share the appliance type and model to help us better prepare for our visit.: Tractor Model DW80US\\n\\nPlease describe the issue.: Turns on but won't run. Address says Spencer but that's just the post office that delivers the mail.\\n\\nIf convenient for you, please provide a phone number so we can connect before the visit.: +1 312-922-2388\\n\\nNeed to make changes to this event?\\nCancel: https://calendly.com/cancellations/20b46974\\nReschedule: https://calendly.com/reschedulings/6974\\n\\nPowered by Calendly.com\\n\",";
-
-    //todo: распарсить евент извлечь customer
     @Test
-    void testRetrieve() {
+    void when_googleEventParser_retrieveCustomer_success() {
         //given
-        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("calendar_test.json")) {
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(FILE_PATH)) {
             if (inputStream == null) {
                 throw new RuntimeException("File not found!");
             }
@@ -41,7 +40,6 @@ class GoogleEventParserTest {
             assertAll(
                     () -> assertTrue(resultCustomerManualInputOpt.isPresent(), "Manual input customer should be present"),
                     () -> assertTrue(resultCustomerCalendyEventOpt.isPresent(), "Calendy customer should be present"),
-
                     () -> {
                         Customer customerManual = resultCustomerManualInputOpt.get();
                         assertAll(
@@ -68,21 +66,12 @@ class GoogleEventParserTest {
         }
     }
 
-    //todo: parse customer from summary
     @Test
     void whenParseMobilePhoneReturnCorrectPhone() {
         //given
         String expectedMobilePhone = "+1 312-922-2388";
-        String description = calandyDescription;
         //when
-        String resultMobilePhone = googleEventParser.parseMobilePhone(description);
+        String resultMobilePhone = googleEventParser.parseMobilePhone(calandyDescription);
         assertEquals(expectedMobilePhone, resultMobilePhone);
     }
-
-    //todo: parse customer from summary
-    @Test
-    void testParseCalendyCustomerReturnCustomer() {
-    }
 }
-
-//Generated with love by TestMe :) Please report issues and submit feature requests at: http://weirddev.com/forum#!/testme
