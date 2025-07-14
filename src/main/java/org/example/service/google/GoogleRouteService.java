@@ -36,11 +36,11 @@ public class GoogleRouteService implements RouteService {
     public Optional<DistanceGoogleMatrix> getRouteEstimate(String departAddress, String destinationAddress) throws IOException, InterruptedException {
         // Validate input parameters
         if (departAddress == null || departAddress.isBlank()) {
-            logger.error("Departure address is null or empty");
+            logger.warn("Departure address is null or empty");
             return Optional.empty();
         }
         if (destinationAddress == null || destinationAddress.isBlank()) {
-            logger.error("Destination address is null or empty");
+            logger.warn("Destination address is null or empty");
             return Optional.empty();
         }
         // Implementation for fetching route estimates from Google Maps API

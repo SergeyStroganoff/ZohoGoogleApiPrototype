@@ -16,6 +16,9 @@ public class AddressParser {
             "^(.+?),\\s*(.+?),\\s*([A-Z]{2})\\s*(\\d{5}(?:-\\d{4})?)$"
     );
 
+    private AddressParser() {
+    }
+
     public static void parseAndSetAddress(Customer customer) {
         String fullAddress = customer.getAddress();
         if (fullAddress == null || fullAddress.isBlank()) return;

@@ -39,6 +39,8 @@ public class EntityMatcher {
         contactPerson.setPhone(customer.getPhone());
         request.setContactPersons(List.of(contactPerson));
 
+        AddressParser.parseAndSetAddress(customer);
+
         Address address = new Address();
         address.setAddressLine1(customer.getAddress());
         address.setCity(customer.getCity());

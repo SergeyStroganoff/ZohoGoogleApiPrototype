@@ -1,6 +1,7 @@
 package org.example.entity.zoho.contacts;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,6 +36,7 @@ public class ZohoContactRequest {
 
     private String website;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("custom_fields")
     private List<CustomField> customFields;
 

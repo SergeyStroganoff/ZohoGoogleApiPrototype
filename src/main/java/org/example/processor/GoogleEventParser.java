@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
  */
 public class GoogleEventParser {
     private static final Logger logger = LoggerFactory.getLogger(GoogleEventParser.class);
-    private static final String DESCRIPTION_PREFIX = "Event Name:";
+    private static final String DESCRIPTION_PREFIX = "Event Name";
     public static final String CALENDAR_EVENT_IS_NULL = "CalendarEvent is null !!!";
 
     public Optional<Customer> retrieveCustomer(CalendarEvent calendarEvent, String delimiter) {
@@ -57,7 +57,8 @@ public class GoogleEventParser {
         customer.setFirstName(summary[0]);
         customer.setSecondName(summary[1]);
         customer.setPhone(parseMobilePhone(calendarEvent.getDescription()));
-        if (calendarEvent.getAttendees().size() > 1) {
+        // todo: check
+        if (calendarEvent.getAttendees().size() > 1 && (!calendarEvent.getAttendees().get(1).isOrganizer())) {
             customer.setEmail(calendarEvent.getAttendees().get(1).getEmail());
         }
         if (calendarEvent.getLocation() != null) {
