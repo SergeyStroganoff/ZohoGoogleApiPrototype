@@ -1,13 +1,13 @@
 package org.example.service.zoho;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.entity.zoho.estimate.LineItem;
 import org.example.entity.zoho.estimate.ZohoEstimateRequest;
 import org.example.entity.zoho.estimate.ZohoEstimateResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.net.http.HttpClient;
@@ -42,7 +42,7 @@ class ZohoEstimateServiceTest {
         ZohoEstimateRequest request = new ZohoEstimateRequest();
         request.setCustomerId(CUSTOMER_ID);
         request.setLineItems(List.of(
-                new ZohoEstimateRequest.LineItem("Diagnostic visit", 150.0, 1)
+                new LineItem("1", "Diagnostic visit", 150.0, 1)
         ));
 
         // Prepare HTTP response

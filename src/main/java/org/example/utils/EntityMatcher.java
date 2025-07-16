@@ -5,6 +5,8 @@ import org.example.entity.zoho.comon.Address;
 import org.example.entity.zoho.comon.ContactPerson;
 import org.example.entity.zoho.contacts.LanguageCode;
 import org.example.entity.zoho.contacts.ZohoContactRequest;
+import org.example.entity.zoho.estimate.LineItem;
+import org.example.entity.zoho.estimate.ZohoEstimateRequest;
 
 import java.util.List;
 import java.util.Objects;
@@ -18,7 +20,7 @@ import java.util.stream.Stream;
  */
 
 public class EntityMatcher {
-    public static ZohoContactRequest createRequest(Customer customer) {
+    public static ZohoContactRequest createContactRequest(Customer customer) {
         ZohoContactRequest request = new ZohoContactRequest();
         String contactName = Stream.of(customer.getFirstName(), customer.getSecondName())
                 .filter(Objects::nonNull)
@@ -50,6 +52,20 @@ public class EntityMatcher {
         request.setShippingAddress(address); // Если оба адреса совпадают
         // Notes
         request.setNotes(customer.getNote());
+        return request;
+    }
+
+    /**
+     * Creates a ZohoEstimateRequest from a customer ID and a list of line items.
+     *
+     * @param customerId The ID of the customer for whom the estimate is created.
+     * @param lineItems  The list of line items to be included in the estimate.
+     * @return A ZohoEstimateRequest object containing the customer ID and line items.
+     */
+    public static ZohoEstimateRequest createEstimateRequest(String customerId, List<LineItem> lineItems) {
+        ZohoEstimateRequest request = new ZohoEstimateRequest();
+        request.setCustomerId(customerId);
+        request.setLineItems(lineItems);
         return request;
     }
 }

@@ -39,19 +39,4 @@ public class ZohoEstimateResponse {
         @JsonProperty("status")
         private String status;
     }
-
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class LineItem {
-        @JsonProperty("name")
-        private String name;
-
-        @JsonProperty("rate")
-        private double rate;
-
-        @JsonProperty("quantity")
-        private int quantity;
-    }
 }

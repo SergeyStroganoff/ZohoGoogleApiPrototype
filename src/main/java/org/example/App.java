@@ -4,11 +4,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.entity.google.CalendarEvent;
 import org.example.entity.google.DistanceGoogleMatrix;
 import org.example.entity.zoho.contacts.ZohoContactRequest;
+import org.example.entity.zoho.contacts.ZohoContactResponse;
+import org.example.entity.zoho.estimate.LineItem;
+import org.example.entity.zoho.estimate.ZohoEstimateRequest;
+import org.example.entity.zoho.estimate.ZohoEstimateResponse;
 import org.example.processor.GoogleEventParser;
 import org.example.service.OAuthTokenRefresher;
 import org.example.service.google.GoogleCalendarService;
 import org.example.service.google.GoogleRouteService;
 import org.example.service.zoho.ZohoContactService;
+import org.example.service.zoho.ZohoEstimateService;
 import org.example.utils.*;
 import org.slf4j.Logger;
 
@@ -29,6 +34,8 @@ import java.util.Optional;
 
 public class App {
     private static final Logger logger = org.slf4j.LoggerFactory.getLogger(App.class);
+    public static final String ITEM_ID = "5971371000000098023";
+    public static final double KM_TO_MILES_COEFFICIENT = 0.000621371;
     private static String testDepartureAddress = "55 E Michigan St, Indianapolis, IN 46204, USA";
 
     public static void main(String[] args) throws Exception {
@@ -74,17 +81,34 @@ public class App {
                             if (distanceGoogleMatrix.isPresent()) {
                                 String distanceText = distanceGoogleMatrix.get().getRows()[0].getElements()[0].getDistance().getText();
                                 int distanceInMeters = distanceGoogleMatrix.get().getRows()[0].getElements()[0].getDistance().getValue();
-                                int distanceInMiles = (int) (distanceInMeters * 0.000621371); // Convert meters to miles
+                                double distanceInMiles = (distanceInMeters * KM_TO_MILES_COEFFICIENT); // Convert meters to miles
                                 String durationText = distanceGoogleMatrix.get().getRows()[0].getElements()[0].getDuration().getText();
-                                logger.debug("Distance from {} to {}: {} meters, duration: {} seconds",
-                                        testDepartureAddress, customer.getAddress(), distanceText, durationText);
-                                customer.setNote("Distance to customer: " + distanceText + "in miles: " + distanceInMiles + ", duration: " + durationText);
+                                logger.debug("Distance from {} to {}: {} meters, duration: {} seconds", testDepartureAddress, customer.getAddress(), distanceText, durationText);
+                                String note = String.format("Distance to customer: %s in miles: %.2f, duration: %s", distanceText, distanceInMiles, durationText);
+                                customer.setNote(note);
                             } else {
                                 logger.warn("No distance data found for customer: {} {}", customer.getFirstName(), customer.getSecondName());
                             }
-                            ZohoContactRequest zohoContactRequest = EntityMatcher.createRequest(customer);
-                            zohoContactService.addNewContact(zohoContactRequest, organisationId);
-                            logger.info("Customer {} successfully added to Zoho", customer);
+                            ZohoContactRequest zohoContactRequest = EntityMatcher.createContactRequest(customer);
+                            ZohoContactResponse zohoContactResponse = zohoContactService.addNewContact(zohoContactRequest, organisationId);
+                            if (zohoContactResponse.getCode() == 0) {
+                                logger.info("Customer {} successfully added to Zoho", customer);
+                                // Optionally, create an estimate for the customer
+                                LineItem service = new LineItem();
+                                service.setItemId(ITEM_ID); // Example item ID
+                                service.setRate(70.00); // Example rate
+                                service.setQuantity(1); // Example quantity
+                                ZohoEstimateRequest estimateRequest = EntityMatcher.createEstimateRequest(String.valueOf(zohoContactResponse.getContact().getContactId()), List.of(service));
+                                ZohoEstimateService zohoEstimateService = new ZohoEstimateService(zohoAccessToken, httpClient, objectMapper);
+                                ZohoEstimateResponse zohoEstimateResponse = zohoEstimateService.createEstimate(estimateRequest, organisationId);
+                                if (zohoEstimateResponse.getCode() == 0) {
+                                    logger.info("Estimate for customer {} created successfully: {}", customer, zohoEstimateResponse.getEstimate().getEstimateId());
+                                } else {
+                                    logger.error("Failed to create estimate for customer {}: {}", customer, zohoEstimateResponse.getMessage());
+                                }
+                            } else {
+                                logger.error("Failed to add customer {} to Zoho: {}", customer, zohoContactResponse.getMessage());
+                            }
                         } catch (Exception e) {
                             logger.error("Failed to add customer {} to Zoho: {}", customer, e.getMessage());
                         }

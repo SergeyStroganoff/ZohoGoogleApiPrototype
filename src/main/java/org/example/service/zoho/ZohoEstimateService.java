@@ -21,7 +21,7 @@ public class ZohoEstimateService extends ZohoServiceAbstract {
     private static final Logger logger = LoggerFactory.getLogger(ZohoEstimateService.class);
     private static final String ESTIMATE_ENDPOINT = "estimates";
 
-    protected ZohoEstimateService(String accessToken, HttpClient httpClient, ObjectMapper objectMapper) {
+    public ZohoEstimateService(String accessToken, HttpClient httpClient, ObjectMapper objectMapper) {
         super(accessToken, httpClient, objectMapper);
     }
 

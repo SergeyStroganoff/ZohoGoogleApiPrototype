@@ -6,17 +6,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ZohoEstimateRequest {
-    @JsonProperty("customer_id")
-    private String customerId;
-    @JsonProperty("line_items")
-    private List<LineItem> lineItems;
-
-
+public class LineItem {
+    @JsonProperty("item_id")
+    private String itemId;
+    @JsonProperty("name")
+    private String name;
+    @JsonProperty("rate")
+    private double rate;
+    @JsonProperty("quantity")
+    private int quantity;
 }
