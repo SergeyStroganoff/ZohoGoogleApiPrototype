@@ -48,7 +48,7 @@ public class App {
         // Получаем события за три дня начиная с сегодняшнего дня
         String startDate = UTCTimeConverter.getUTCDateTimeNow();
         logger.info("Get all events with Start date: {}", startDate);
-        String endDate = UTCTimeConverter.getUTCDateTimeWithOffset(7, ChronoUnit.DAYS);
+        String endDate = UTCTimeConverter.getUTCDateTimeWithOffset(3, ChronoUnit.DAYS);
         List<CalendarEvent> events = googleCalendarService.getEventsByDate(startDate, endDate);
         // Print the events as optional
         for (CalendarEvent event : events) {
@@ -78,7 +78,7 @@ public class App {
                                 String durationText = distanceGoogleMatrix.get().getRows()[0].getElements()[0].getDuration().getText();
                                 logger.debug("Distance from {} to {}: {} meters, duration: {} seconds",
                                         testDepartureAddress, customer.getAddress(), distanceText, durationText);
-                                customer.setNote("Distance from " + testDepartureAddress + " to customer: " + distanceText + "in miles: " + distanceInMiles + ", duration: " + durationText);
+                                customer.setNote("Distance to customer: " + distanceText + "in miles: " + distanceInMiles + ", duration: " + durationText);
                             } else {
                                 logger.warn("No distance data found for customer: {} {}", customer.getFirstName(), customer.getSecondName());
                             }

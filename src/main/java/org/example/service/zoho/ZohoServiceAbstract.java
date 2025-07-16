@@ -21,6 +21,7 @@ public abstract class ZohoServiceAbstract {
     private static final String HEADER_ORG_ID = "X-com-zoho-invoice-organizationid";
     private static final String HEADER_CONTENT_TYPE = "Content-Type";
     private static final String CONTENT_TYPE_JSON = "application/json";
+    public static final String ZOHO_API_LIMIT_REACHED = "ZOHO API limit reached.";
     protected final String accessToken;
     protected final HttpClient httpClient;
     protected final ObjectMapper objectMapper;

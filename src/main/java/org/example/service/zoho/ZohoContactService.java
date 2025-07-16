@@ -23,7 +23,7 @@ import java.net.http.HttpResponse;
 public class ZohoContactService extends ZohoServiceAbstract {
     private static final Logger logger = LoggerFactory.getLogger(ZohoContactService.class);
     public static final String CONTACT_ALREADY_EXISTS = "Contact already exists.";
-    public static final String ZOHO_API_LIMIT_REACHED = "ZOHO API limit reached.";
+
     public static final String ZOHO_OAUTHTOKEN_HEADER = "Zoho-oauthtoken ";
     private static final String CONTACTS_ENDPOINT = "contacts";
 
@@ -35,11 +35,11 @@ public class ZohoContactService extends ZohoServiceAbstract {
      * Adds a new contact to Zoho Invoice.
      *
      * @param contactRequest The request object containing contact details.
-     * @param organisationId The ID of the organisation in Zoho Books.
+     * @param organizationId The ID of the organisation in Zoho Books.
      * @return A ZohoContactResponse containing the saved contact or info about the failure.
      * @throws ZohoServiceException If there is an error during the HTTP request.
      */
-    public ZohoContactResponse addNewContact(ZohoContactRequest contactRequest, String organisationId) throws JsonProcessingException {
+    public ZohoContactResponse addNewContact(ZohoContactRequest contactRequest, String organizationId) throws JsonProcessingException {
         logger.info("Adding new contact to Zoho: {}", contactRequest.getContactName());
         String jsonPayload;
         try {
@@ -50,7 +50,7 @@ public class ZohoContactService extends ZohoServiceAbstract {
             logger.error(msg);
             throw e;
         }
-        HttpRequest request = buildPostRequest(jsonPayload, organisationId, CONTACTS_ENDPOINT);
+        HttpRequest request = buildPostRequest(jsonPayload, organizationId, CONTACTS_ENDPOINT);
         try {
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             if (isSuccessfulStatus(response.statusCode())) {
