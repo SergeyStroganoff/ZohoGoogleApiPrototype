@@ -70,6 +70,7 @@ public class App {
         String organisationId = tokenManager.getZOHOInvoiceOrganisationId();
         String zohoAccessToken = tokenManager.getZOHOInvoiceAccessToken();
         ZohoContactService zohoContactService = new ZohoContactService(zohoAccessToken, httpClient, objectMapper);
+        ZohoEstimateService zohoEstimateService = new ZohoEstimateService(zohoAccessToken, httpClient, objectMapper);
 
         // retrieving all customers and saving to Zoho
         for (CalendarEvent event : events) {
@@ -99,7 +100,6 @@ public class App {
                                 service.setRate(70.00); // Example rate
                                 service.setQuantity(1); // Example quantity
                                 ZohoEstimateRequest estimateRequest = EntityMatcher.createEstimateRequest(String.valueOf(zohoContactResponse.getContact().getContactId()), List.of(service));
-                                ZohoEstimateService zohoEstimateService = new ZohoEstimateService(zohoAccessToken, httpClient, objectMapper);
                                 ZohoEstimateResponse zohoEstimateResponse = zohoEstimateService.createEstimate(estimateRequest, organisationId);
                                 if (zohoEstimateResponse.getCode() == 0) {
                                     logger.info("Estimate for customer {} created successfully: {}", customer, zohoEstimateResponse.getEstimate().getEstimateId());
