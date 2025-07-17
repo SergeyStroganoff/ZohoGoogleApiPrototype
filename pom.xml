@@ -101,6 +101,11 @@
       <artifactId>auth</artifactId>
       <version>2.25.54</version>
     </dependency>
+    <dependency>
+      <groupId>software.amazon.awssdk</groupId>
+      <artifactId>dynamodb</artifactId>
+      <version>2.25.54</version>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
