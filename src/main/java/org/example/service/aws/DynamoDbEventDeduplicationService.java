@@ -1,4 +1,4 @@
-package org.example.service;
+package org.example.service.aws;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,23 +17,23 @@ import java.util.Map;
  * prevent race conditions when multiple processes try to add the same event.
  */
 public class DynamoDbEventDeduplicationService {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(DynamoDbEventDeduplicationService.class);
-    
+
     private static final String EVENT_ID_ATTRIBUTE = "event_id";
     private static final String EXPIRES_AT_ATTRIBUTE = "expires_at";
     private static final String CONDITION_EXPRESSION = "attribute_not_exists(" + EVENT_ID_ATTRIBUTE + ")";
     private static final int MAX_EVENT_ID_LENGTH = 255;
-    private static final long DEFAULT_TTL_DAYS = 30;
-    private static final long SECONDS_PER_DAY = 24 * 60 * 60;
-    
+    private static final int DEFAULT_TTL_DAYS = 30;
+    private static final int SECONDS_PER_DAY = 24 * 60 * 60;
+
     private final DynamoDbClient dynamoDbClient;
     private final String tableName;
     private final long ttlDays;
-    
+
     /**
      * Creates a new DynamoDbEventDeduplicationService with default TTL of 30 days.
-     * 
+     *
      * @param dynamoDbClient The DynamoDB client to use for operations
      * @param tableName The name of the DynamoDB table to use for deduplication
      */
@@ -63,45 +63,41 @@ public class DynamoDbEventDeduplicationService {
      */
     public boolean isEventProcessed(String eventId) {
         validateEventId(eventId);
-        
         try {
             GetItemRequest request = GetItemRequest.builder()
                     .tableName(tableName)
                     .key(Map.of(EVENT_ID_ATTRIBUTE, AttributeValue.builder().s(eventId).build()))
                     .build();
-            
+
             GetItemResponse response = dynamoDbClient.getItem(request);
             boolean exists = response.hasItem() && !response.item().isEmpty();
-            
             logger.debug("Event {} processed check: {}", eventId, exists);
             return exists;
-            
+
         } catch (ResourceNotFoundException e) {
             logger.debug("Event {} not found in table {}", eventId, tableName);
             return false;
         } catch (DynamoDbException e) {
             logger.error("Failed to check if event {} is processed: {}", eventId, e.getMessage());
-            throw new RuntimeException("Failed to check event processing status", e);
+            throw e;
         }
     }
-    
+
     /**
      * Marks an event as processed by adding it to the DynamoDB table.
      * This method is idempotent - calling it multiple times with the same eventId
      * will not cause an error.
-     * 
+     *
      * The method automatically calculates an expires_at field (current time + TTL days)
      * for DynamoDB TTL auto-deletion.
-     * 
+     *
      * @param eventId The unique identifier of the event to mark as processed
      * @throws IllegalArgumentException if eventId is null, empty, or longer than 255 characters
      * @throws RuntimeException if a non-recoverable DynamoDB error occurs
      */
     public void markEventProcessed(String eventId) {
         validateEventId(eventId);
-        
         long expiresAt = calculateExpiresAt();
-        
         try {
             PutItemRequest request = PutItemRequest.builder()
                     .tableName(tableName)
@@ -111,9 +107,8 @@ public class DynamoDbEventDeduplicationService {
                     ))
                     .conditionExpression(CONDITION_EXPRESSION)
                     .build();
-            
             dynamoDbClient.putItem(request);
-            logger.info("Successfully marked event {} as processed with expiration {}", eventId, expiresAt);
+            logger.debug("Successfully marked event {} as processed with expiration {}", eventId, expiresAt);
             
         } catch (ConditionalCheckFailedException e) {
             logger.debug("Event {} already exists in table {} - idempotent operation", eventId, tableName);

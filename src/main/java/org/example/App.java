@@ -85,7 +85,7 @@ public class App {
                                 double distanceInMiles = (distanceInMeters * KM_TO_MILES_COEFFICIENT); // Convert meters to miles
                                 String durationText = distanceGoogleMatrix.get().getRows()[0].getElements()[0].getDuration().getText();
                                 logger.debug("Distance from {} to {}: {} meters, duration: {} seconds", testDepartureAddress, customer.getAddress(), distanceText, durationText);
-                                String note = String.format("Distance to customer: %s in miles: %.2f, duration: %s", distanceText, distanceInMiles, durationText);
+                                String note = String.format("Distance to customer: %s km, %.2f miles, duration: %s", distanceText, distanceInMiles, durationText);
                                 customer.setNote(note);
                             } else {
                                 logger.warn("No distance data found for customer: {} {}", customer.getFirstName(), customer.getSecondName());

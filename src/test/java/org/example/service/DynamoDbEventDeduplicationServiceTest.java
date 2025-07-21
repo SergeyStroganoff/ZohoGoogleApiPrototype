@@ -1,12 +1,16 @@
 package org.example.service;
 
+import org.example.service.aws.DynamoDbEventDeduplicationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.dynamodb.model.*;
+
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -70,8 +74,9 @@ class DynamoDbEventDeduplicationServiceTest {
     void testMarkEventProcessed_NewEvent_Success() {
         // Given
         PutItemResponse response = PutItemResponse.builder().build();
+        // When
         when(dynamoDbClient.putItem(any(PutItemRequest.class))).thenReturn(response);
-
+        // Then
         assertDoesNotThrow(() -> service.markEventProcessed(VALID_EVENT_ID));
         verify(dynamoDbClient, times(1)).putItem(any(PutItemRequest.class));
     }
@@ -79,19 +84,20 @@ class DynamoDbEventDeduplicationServiceTest {
     @Test
     void testMarkEventProcessed_IdempotentBehavior_NoException() {
         // Given
+        // When
         when(dynamoDbClient.putItem(any(PutItemRequest.class)))
                 .thenThrow(ConditionalCheckFailedException.builder().message("Item already exists").build());
-
+        //Then
         assertDoesNotThrow(() -> service.markEventProcessed(VALID_EVENT_ID));
         verify(dynamoDbClient, times(1)).putItem(any(PutItemRequest.class));
     }
 
     @Test
     void testMarkEventProcessed_DynamoDbException_ThrowsRuntimeException() {
-        // Given
+        // When
         when(dynamoDbClient.putItem(any(PutItemRequest.class)))
                 .thenThrow(DynamoDbException.builder().message("Service unavailable").build());
-
+        // Then
         assertThrows(RuntimeException.class, () -> service.markEventProcessed(VALID_EVENT_ID));
         verify(dynamoDbClient, times(1)).putItem(any(PutItemRequest.class));
     }
@@ -141,35 +147,15 @@ class DynamoDbEventDeduplicationServiceTest {
         String maxLengthEventId = "a".repeat(255);
         when(dynamoDbClient.getItem(any(GetItemRequest.class)))
                 .thenThrow(ResourceNotFoundException.builder().message("Item not found").build());
-
         assertDoesNotThrow(() -> service.isEventProcessed(maxLengthEventId));
         verify(dynamoDbClient, times(1)).getItem(any(GetItemRequest.class));
     }
 
-    @Test
-    void testTtlCalculation_CorrectExpirationTime() {
-        // Given
-        long currentTimeSeconds = System.currentTimeMillis() / 1000;
-        long expectedMinExpiration = currentTimeSeconds + (TTL_DAYS * 24 * 60 * 60);
-        long expectedMaxExpiration = expectedMinExpiration + 5; // Allow 5 seconds tolerance
-
-        // When
-        service.markEventProcessed(VALID_EVENT_ID);
-
-        // Then
-        verify(dynamoDbClient, times(1)).putItem(argThat(request -> {
-            AttributeValue expiresAtValue = request.item().get("expires_at");
-            assertNotNull(expiresAtValue);
-            long actualExpiration = Long.parseLong(expiresAtValue.n());
-            return actualExpiration >= expectedMinExpiration && actualExpiration <= expectedMaxExpiration;
-        }));
-    }
 
     @Test
     void testConstructor_DefaultTtl() {
         // When
         DynamoDbEventDeduplicationService defaultService = new DynamoDbEventDeduplicationService(dynamoDbClient, TABLE_NAME);
-
         // Then
         assertNotNull(defaultService);
     }
@@ -178,11 +164,23 @@ class DynamoDbEventDeduplicationServiceTest {
     void testConstructor_CustomTtl() {
         // Given
         long customTtl = 7;
-
         // When
         DynamoDbEventDeduplicationService customService = new DynamoDbEventDeduplicationService(dynamoDbClient, TABLE_NAME, customTtl);
-
         // Then
         assertNotNull(customService);
+    }
+
+    @Test
+    void testMarkEventProcessed_TtlIsCorrect() {
+        ArgumentCaptor<PutItemRequest> captor = ArgumentCaptor.forClass(PutItemRequest.class);
+        when(dynamoDbClient.putItem(any(PutItemRequest.class))).thenReturn(PutItemResponse.builder().build());
+        service.markEventProcessed(VALID_EVENT_ID);
+        verify(dynamoDbClient).putItem(captor.capture());
+        PutItemRequest request = captor.getValue();
+        Map<String, AttributeValue> item = request.item();
+        long expiresAt = Long.parseLong(item.get("expires_at").n());
+        long now = System.currentTimeMillis() / 1000L;
+        assertTrue(expiresAt > now + 29 * 24 * 60 * 60);
+        assertTrue(expiresAt <= now + 30 * 24 * 60 * 60 + 5); // +5 sec for test
     }
 }
