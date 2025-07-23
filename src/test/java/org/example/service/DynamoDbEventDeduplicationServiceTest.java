@@ -25,9 +25,7 @@ class DynamoDbEventDeduplicationServiceTest {
 
     @Mock
     private DynamoDbClient dynamoDbClient;
-
     private DynamoDbEventDeduplicationService service;
-    
     private static final String VALID_EVENT_ID = "rn1nbm9c1u5lutjt1smo062f7k";
     private static final String TABLE_NAME = "event-deduplication";
     private static final long TTL_DAYS = 30;
