@@ -23,3 +23,7 @@ Resources:
           Type: Schedule
           Properties:
             Schedule: rate(1 hour)
+      Environment:
+        Variables:
+          OFFICE_ADDRESS: "1333 S Fenbrook Ln, Bloomington, IN 47401"
+

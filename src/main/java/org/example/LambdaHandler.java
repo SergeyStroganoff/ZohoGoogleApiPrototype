@@ -7,7 +7,12 @@ public class LambdaHandler implements RequestHandler<Object, String> {
 
     @Override
     public String handleRequest(Object input, Context context) {
-        // TODO: Migrate your main() logic here
-        return "Google-Zoho sync completed";
+        try {
+            AppLogic appLogic = new AppLogic();
+            return appLogic.runSync();
+        } catch (Exception e) {
+            context.getLogger().log("Error: " + e.getMessage());
+            return "Failed: " + e.getMessage();
+        }
     }
 }

@@ -20,12 +20,10 @@ import org.example.utils.*;
 import org.slf4j.Logger;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 
-import java.io.InputStream;
 import java.net.http.HttpClient;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 // сходить в базу данных и проверить обработан ли event
@@ -35,16 +33,16 @@ import java.util.Optional;
 // получать адреса от google map
 // создать запись пробега в базе данных или Excel
 
-public class App {
-    private static final Logger logger = org.slf4j.LoggerFactory.getLogger(App.class);
+public class AppLogic {
+    private static final Logger logger = org.slf4j.LoggerFactory.getLogger(AppLogic.class);
     public static final String ITEM_ID = "5971371000000098023";
     public static final double KM_TO_MILES_COEFFICIENT = 0.000621371;
     public static final String TABLE_NAME = "ProcessedGoogleCalendarEvents_ZohoIntegration";
     public static final int TTL_DAYS = 30;
-    private static String testDepartureAddress = "55 E Michigan St, Indianapolis, IN 46204, USA";
 
-    public static void main(String[] args) throws Exception {
-        testDepartureAddress = loadOfficeAddress("/office_address.json", JsonUtils.OBJECT_MAPPER);
+
+    public String runSync() throws Exception {
+        String testDepartureAddress = getOfficeAddress();
         HttpClient httpClient = HttpClient.newBuilder()
                 .version(HttpClient.Version.HTTP_2)
                 .connectTimeout(Duration.ofSeconds(10))
@@ -137,20 +135,15 @@ public class App {
             }
         }
         dynamoDbClient.close();
+        return "Processing completed successfully.";
     }
-    private static String loadOfficeAddress(String filePath, ObjectMapper objectMapper) {
-        InputStream inputStream = App.class.getResourceAsStream(filePath);
-        if (inputStream == null) {
-            logger.error("File not found: {}", filePath);
-            throw new RuntimeException("File not found: " + filePath);
+
+    private static String getOfficeAddress() {
+        String departureAddress = System.getenv("OFFICE_ADDRESS");
+        if (departureAddress == null || departureAddress.isBlank()) {
+            throw new IllegalStateException("OFFICE_ADDRESS environment variable is missing");
         }
-        try {
-            Map<String, String> officeAddress = objectMapper.readValue(inputStream, Map.class);
-            logger.info("Office address loaded successfully: {}", officeAddress);
-            return officeAddress.get("address");
-        } catch (Exception e) {
-            logger.error("Error loading office address from file: {}", e.getMessage());
-            throw new RuntimeException("Error loading office address from file: " + filePath, e);
-        }
+        return departureAddress;
     }
+
 }
