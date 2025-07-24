@@ -121,10 +121,10 @@ class ZohoContactServiceTest {
         when(httpResponse.statusCode()).thenReturn(400);
         when(httpResponse.body()).thenReturn(CODE_1005_MESSAGE_CONTACT_ALREADY_EXISTS);
         when(objectMapper.readValue(anyString(), eq(ZohoErrorResponse.class)))
-                .thenReturn(new ZohoErrorResponse(1005, MESSAGE_ALREADY_EXISTS));
+                .thenReturn(new ZohoErrorResponse(3062, MESSAGE_ALREADY_EXISTS));
         ZohoContactResponse result = contactService.addNewContact(request, organisationId);
         // Then
-        assertEquals(1005, result.getCode());
+        assertEquals(3062, result.getCode());
         assertEquals("Contact already exists.", result.getMessage());
     }
 

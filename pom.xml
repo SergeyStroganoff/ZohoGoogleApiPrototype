@@ -106,12 +106,18 @@
       <artifactId>dynamodb</artifactId>
       <version>2.25.54</version>
     </dependency>
+    <dependency>
+      <groupId>com.amazonaws</groupId>
+      <artifactId>aws-lambda-java-core</artifactId>
+      <version>1.2.2</version>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.11.0</version>
         <configuration>
           <source>17</source>
           <target>17</target>
@@ -129,11 +135,11 @@
               <goal>shade</goal>
             </goals>
               <configuration>
-                  <transformers>
-                      <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                          <mainClass>org.example.App</mainClass>
-                      </transformer>
-                  </transformers>
+                <transformers>
+                  <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                    <mainClass>com.example.lambda.MyLambdaHandler</mainClass>
+                  </transformer>
+                </transformers>
               </configuration>
           </execution>
         </executions>

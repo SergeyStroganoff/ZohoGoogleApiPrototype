@@ -11,7 +11,7 @@ class UTCTimeConverterTest {
     void changedUTCDateTimeThenSuccess() {
         //Given
         //When
-        String result = UTCTimeConverter.getUTCDateTime(2023, 10, 1, 12, 0, 0, null);
+        String result = UTCTimeConverter.getUTCDateTime(2023, 10, 1, 12, 0, 0, UTCTimeConverter.AMERICA_INDIANA_INDIANAPOLIS);
         //Then
         assertNotNull(result);
         assertEquals("2023-10-01T16:00:00Z", result); // Adjust the expected value based on your timezone

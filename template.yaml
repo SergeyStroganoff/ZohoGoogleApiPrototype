@@ -1,0 +1,25 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: GoogleCalendarZoho Lambda triggered every hour
+
+Globals:
+  Function:
+    Timeout: 60
+    Runtime: java17
+    MemorySize: 512
+
+Resources:
+  GoogleZohoFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: com.example.lambda.LambdaHandler::handleRequest
+      CodeUri: .
+      Runtime: java17
+      Architectures:
+        - x86_64
+      Role: arn:aws:iam::721152523618:role/lambda-execution-role-google-zoho
+      Events:
+        HourlyTrigger:
+          Type: Schedule
+          Properties:
+            Schedule: rate(1 hour)
