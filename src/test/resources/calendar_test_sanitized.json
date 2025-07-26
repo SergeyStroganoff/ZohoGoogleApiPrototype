@@ -1,0 +1,326 @@
+{
+  "kind": "calendar#events",
+  "etag": "\"p33ns5au7lmuoq0o\"",
+  "summary": "123456s.llc@gmail.com",
+  "description": "",
+  "updated": "2025-05-25T00:23:58.155Z",
+  "timeZone": "America/Indiana/Indianapolis",
+  "accessRole": "owner",
+  "defaultReminders": [
+    {
+      "method": "popup",
+      "minutes": 30
+    }
+  ],
+  "items": [
+    {
+      "kind": "calendar#event",
+      "etag": "\"3495576048035838\"",
+      "id": "6a6sgumguh4u9ga7fs1rdpoirr",
+      "status": "confirmed",
+      "htmlLink": "https://www.google.com/calendar/event?eid=NmE2c2d1bWd1aDR1OWdhN2ZzMXJkcG9pcnIgZm9yd2FyZHRlY2hzb2x1dGlvbnMubGxjQG0",
+      "created": "2025-05-19T14:33:55.000Z",
+      "updated": "2025-05-21T00:40:24.017Z",
+      "summary": "# Alex Farabaugh - 400-942-5598 LG DW",
+      "location": "1601 Willow Road, Menlo Park, CA 94025",
+      "creator": {
+        "email": "123456s.llc@gmail.com",
+        "self": true
+      },
+      "organizer": {
+        "email": "123456s.llc@gmail.com",
+        "self": true
+      },
+      "start": {
+        "dateTime": "2025-05-21T09:00:00-04:00",
+        "timeZone": "America/New_York"
+      },
+      "end": {
+        "dateTime": "2025-05-21T10:00:00-04:00",
+        "timeZone": "America/New_York"
+      },
+      "iCalUID": "6a6sgumguh4u9ga7fs1rdpoirr@google.com",
+      "sequence": 1,
+      "reminders": {
+        "useDefault": true
+      },
+      "eventType": "default"
+    },
+    {
+      "kind": "calendar#event",
+      "etag": "\"3495666356864990\"",
+      "id": "70q3gp9l6gom4b9g64rjeb9kcgo3cbb1ckp34b9i60sj6dj36pi6aohkco",
+      "status": "confirmed",
+      "htmlLink": "https://www.google.com/calendar/event?eid=NzBxM2dwOWw2Z29tNGI5ZzY0cmplYjlrY2dvM2NiYjFja3AzNGI5aTYwc2o2ZGozNnBpNmFvaGtjbyBmb3J3YXJkdGVjaHNvbHV0aW9ucy5sbGNAbQ",
+      "created": "2025-05-21T13:12:38.000Z",
+      "updated": "2025-05-21T13:12:58.432Z",
+      "summary": "# Jacob Bailey\n420 E. Laurelwood Drive\nDenver",
+      "location": "420 E. Laurelwood Drive\nDenver",
+      "creator": {
+        "email": "masked@example.com",
+        "self": true
+      },
+      "organizer": {
+        "email": "masked@example.com",
+        "self": true
+      },
+      "start": {
+        "dateTime": "2025-05-21T16:00:00-04:00",
+        "timeZone": "America/New_York"
+      },
+      "end": {
+        "dateTime": "2025-05-21T17:00:00-04:00",
+        "timeZone": "America/New_York"
+      },
+      "iCalUID": "70q3gp9l6gom4b9g64rjeb9kcgo3cbb1ckp34b9i60sj6dj36pi6aohkco@google.com",
+      "sequence": 0,
+      "reminders": {
+        "useDefault": true
+      },
+      "eventType": "default"
+    },
+    {
+      "kind": "calendar#event",
+      "etag": "\"3495834349719550\"",
+      "id": "rn1nbm9c1u5lutjt1smo062f7k",
+      "status": "confirmed",
+      "htmlLink": "https://www.google.com/calendar/event?eid=cm4xbmJtOWMxdTVsdXRqdDFzbW8wNjJmN2sgZm9yd2FyZHRlY2hzb2x1dGlvbnMubGxjQG0",
+      "created": "2025-05-20T20:03:29.000Z",
+      "updated": "2025-05-22T12:32:54.859Z",
+      "summary": "John Kit and IT Solutions",
+      "description": "Event Name:  IT type and model to help us better prepare for our visit.:  Model DW80J3020US\n\nPlease describe the issue with your IT so we can better assist you.: Turns on but won't run. Our address is in Monroe County near Edgewood H.S. near Ellettsville. Address says Spencer but that's just the post office that delivers the mail.\n\nIf convenient for you, please provide a phone number so we can connect before the visit.: +1 912-929-0001\n\nNeed to make changes to this event?\nCancel: https://calendly.com/cancellations/20b46974-1ca7-4a9d-9773-21a04d179322\nReschedule: https://calendly.com/reschedulings/20b46974-1ca7-4a9d-9773-21a04d179322\n\nPowered by Calendly.com\n",
+      "location": "92 W Ratliff Rd, Liusville, IN 47460, \u0421\u0428\u0410",
+      "creator": {
+        "email": "123456s.llc@gmail.com",
+        "self": true
+      },
+      "organizer": {
+        "email": "123456s.llc@gmail.com",
+        "self": true
+      },
+      "start": {
+        "dateTime": "2025-05-22T10:00:00-04:00",
+        "timeZone": "America/Indiana/Indianapolis"
+      },
+      "end": {
+        "dateTime": "2025-05-22T11:00:00-04:00",
+        "timeZone": "America/Indiana/Indianapolis"
+      },
+      "iCalUID": "rn1nbm9c1u5lutjt1smo062f7k@google.com",
+      "sequence": 0,
+      "attendees": [
+        {
+          "email": "123456s.llc@gmail.com",
+          "organizer": true,
+          "self": true,
+          "responseStatus": "accepted"
+        },
+        {
+          "email": "johns@yahoo.com",
+          "responseStatus": "needsAction"
+        }
+      ],
+      "reminders": {
+        "useDefault": true
+      },
+      "eventType": "default"
+    },
+    {
+      "kind": "calendar#event",
+      "etag": "\"3495754122550462\"",
+      "id": "60jhlphco6tjnv9j99mlchuqbo",
+      "status": "confirmed",
+      "htmlLink": "https://www.google.com/calendar/event?eid=NjBqaGxwaGNvNnRqbnY5ajk5bWxjaHVxYm8gZm9yd2FyZHRlY2hzb2x1dGlvbnMubGxjQG0",
+      "created": "2025-05-22T01:24:21.000Z",
+      "updated": "2025-05-22T01:24:21.275Z",
+      "summary": "Dani Raymond Parts installation",
+      "description": "Event Name:  Our expert will assess the issue and provide a detailed estimate for any necessary parts and labor. itself.\n\nLocation: 3649 S Sowder Sq\n\nPlease share the IT type and model to help us better prepare for our visit.: 800 Series\n\nPlease describe the issue with your IT so we can better assist you.: The dishwasher has a slow drip leak out of a front corner.\n\nIf convenient for you, please provide a phone number so we can connect before the visit.: +1 000-000-0000\n\nNeed to make changes to this event?\nCancel: <a href=\"https://www.google.com/url?q=https://calendly.com/cancellations/d43f9d5f-a5b5-4907-978d-71cbe3817079&amp;sa=D&amp;source=calendar&amp;usd=2&amp;usg=AOvVaw38zJNQX12M567UXIwSmK7-\" target=\"_blank\">https://calendly.com/cancellations/d43f9d5f-a5b5-4907-978d-71cbe3817079</a>\nReschedule: <a href=\"https://www.google.com/url?q=https://calendly.com/reschedulings/d43f9d5f-a5b5-4907-978d-71cbe3817079&amp;sa=D&amp;source=calendar&amp;usd=2&amp;usg=AOvVaw2bj_ODlpntGSv3a-fnuHc-\" target=\"_blank\">https://calendly.com/reschedulings/d43f9d5f-a5b5-4907-978d-71cbe3817079</a>\n\nPowered by Calendly.com\n",
+      "location": "3649 S Sowder Sq",
+      "creator": {
+        "email": "masked@example.com",
+        "self": true
+      },
+      "organizer": {
+        "email": "masked@example.com",
+        "self": true
+      },
+      "start": {
+        "dateTime": "2025-05-22T11:30:00-04:00",
+        "timeZone": "America/Indiana/Indianapolis"
+      },
+      "end": {
+        "dateTime": "2025-05-22T13:00:00-04:00",
+        "timeZone": "America/Indiana/Indianapolis"
+      },
+      "iCalUID": "60jhlphco6tjnv9j99mlchuqbo@google.com",
+      "sequence": 0,
+      "attendees": [
+        {
+          "email": "masked@example.com",
+          "organizer": true,
+          "self": true,
+          "responseStatus": "accepted"
+        },
+        {
+          "email": "masked@example.com",
+          "responseStatus": "needsAction"
+        }
+      ],
+      "hangoutLink": "https://meet.google.com/qgu-ibao-owh",
+      "conferenceData": {
+        "entryPoints": [
+          {
+            "entryPointType": "video",
+            "uri": "https://meet.google.com/qgu-ibao-owh",
+            "label": "meet.google.com/qgu-ibao-owh"
+          }
+        ],
+        "conferenceSolution": {
+          "key": {
+            "type": "hangoutsMeet"
+          },
+          "name": "Google Meet",
+          "iconUri": "https://fonts.gstatic.com/s/i/productlogos/meet_2020q4/v6/web-512dp/logo_meet_2020q4_color_2x_web_512dp.png"
+        },
+        "conferenceId": "qgu-ibao-owh"
+      },
+      "reminders": {
+        "useDefault": true
+      },
+      "eventType": "default"
+    },
+    {
+      "kind": "calendar#event",
+      "etag": "\"3495714286420766\"",
+      "id": "61gjeo9jcoojibb2cdj64b9kcdhj0b9o6ph36b9jc8oj6ohg61h30pj164",
+      "status": "confirmed",
+      "htmlLink": "https://www.google.com/calendar/event?eid=NjFnamVvOWpjb29qaWJiMmNkajY0YjlrY2RoajBiOW82cGgzNmI5amM4b2o2b2hnNjFoMzBwajE2NCBmb3J3YXJkdGVjaHNvbHV0aW9ucy5sbGNAbQ",
+      "created": "2025-05-21T15:52:20.000Z",
+      "updated": "2025-05-21T19:52:23.210Z",
+      "summary": "# Laurie Colglazier - Dryer doesnt dry",
+      "location": "1202 E Wylie St, Denver, IN 47401, USA",
+      "creator": {
+        "email": "masked@example.com",
+        "self": true
+      },
+      "organizer": {
+        "email": "masked@example.com",
+        "self": true
+      },
+      "start": {
+        "dateTime": "2025-05-22T17:00:00-04:00",
+        "timeZone": "America/New_York"
+      },
+      "end": {
+        "dateTime": "2025-05-22T18:00:00-04:00",
+        "timeZone": "America/New_York"
+      },
+      "iCalUID": "61gjeo9jcoojibb2cdj64b9kcdhj0b9o6ph36b9jc8oj6ohg61h30pj164@google.com",
+      "sequence": 1,
+      "reminders": {
+        "useDefault": true
+      },
+      "eventType": "default"
+    },
+    {
+      "kind": "calendar#event",
+      "etag": "\"3495753952520734\"",
+      "id": "2ar5hcfittvvqac6o2unpaaui2",
+      "status": "confirmed",
+      "htmlLink": "https://www.google.com/calendar/event?eid=MmFyNWhjZml0dHZ2cWFjNm8ydW5wYWF1aTIgZm9yd2FyZHRlY2hzb2x1dGlvbnMubGxjQG0",
+      "created": "2025-05-21T18:47:37.000Z",
+      "updated": "2025-05-22T01:22:56.260Z",
+      "summary": "# Dana -+1 000-000-0000 -  fan",
+      "description": "<h1>Model #\u00a0JK955BF5BB</h1>",
+      "location": "3830 E Devonshire Ln, Denver, FD 17400, \u0421\u0428\u0410",
+      "creator": {
+        "email": "masked@example.com",
+        "self": true
+      },
+      "organizer": {
+        "email": "masked@example.com",
+        "self": true
+      },
+      "start": {
+        "dateTime": "2025-05-23T09:00:00-04:00",
+        "timeZone": "America/Indiana/Indianapolis"
+      },
+      "end": {
+        "dateTime": "2025-05-23T10:30:00-04:00",
+        "timeZone": "America/Indiana/Indianapolis"
+      },
+      "iCalUID": "2ar5hcfittvvqac6o2unpaaui2@google.com",
+      "sequence": 0,
+      "reminders": {
+        "useDefault": true
+      },
+      "eventType": "default"
+    },
+    {
+      "kind": "calendar#event",
+      "etag": "\"3495876296587422\"",
+      "id": "4ssiiel7dkg1mg9kjhmmcadkvt",
+      "status": "confirmed",
+      "htmlLink": "https://www.google.com/calendar/event?eid=NHNzaWllbDdka2cxbWc5a2pobW1jYWRrdnQgZm9yd2FyZHRlY2hzb2x1dGlvbnMubGxjQG0",
+      "created": "2025-05-21T00:41:28.000Z",
+      "updated": "2025-05-22T18:22:28.293Z",
+      "summary": "# Craig Deth - Window 11 unit not working",
+      "description": "We have Windows 11 so.",
+      "creator": {
+        "email": "masked@example.com",
+        "self": true
+      },
+      "organizer": {
+        "email": "masked@example.com",
+        "self": true
+      },
+      "start": {
+        "dateTime": "2025-05-23T12:00:00-04:00",
+        "timeZone": "America/Indiana/Indianapolis"
+      },
+      "end": {
+        "dateTime": "2025-05-23T13:45:00-04:00",
+        "timeZone": "America/Indiana/Indianapolis"
+      },
+      "iCalUID": "4ssiielmmcadkvt@google.com",
+      "sequence": 1,
+      "reminders": {
+        "useDefault": true
+      },
+      "eventType": "default"
+    },
+    {
+      "kind": "calendar#event",
+      "etag": "\"3495754255633374\"",
+      "id": "0tjjadl78pr63u3fs3c8dhuptg",
+      "status": "confirmed",
+      "htmlLink": "https://www.google.com/calendar/event?eid=MHRqamFkbDc4cHI2M3UzZnMzYzhkaHVwdGcgZm9yd2FyZHRlY2hzb2x1dGlvbnMubGxjQG0",
+      "created": "2025-05-22T01:25:27.000Z",
+      "updated": "2025-05-22T01:25:27.816Z",
+      "summary": "#Amy Dryer noise",
+      "location": "444 E Glendora Dr, Denver, , USA",
+      "creator": {
+        "email": "masked@example.com",
+        "self": true
+      },
+      "organizer": {
+        "email": "masked@example.com",
+        "self": true
+      },
+      "start": {
+        "dateTime": "2025-05-23T16:30:00-04:00",
+        "timeZone": "America/New_York"
+      },
+      "end": {
+        "dateTime": "2025-05-23T17:30:00-04:00",
+        "timeZone": "America/New_York"
+      },
+      "iCalUID": "0tjjadl78pr63u3fs3c8dhuptg@google.com",
+      "sequence": 0,
+      "reminders": {
+        "useDefault": true
+      },
+      "eventType": "default"
+    }
+  ]
+}
