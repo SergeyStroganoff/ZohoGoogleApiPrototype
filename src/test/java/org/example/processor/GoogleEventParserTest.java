@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 class GoogleEventParserTest {
-    public static final String FILE_PATH = "calendar_test.json";
+    public static final String FILE_PATH = "calendar_test_sanitized.json";
     private static final String delimiter = "#";
     private static final String calandyDescription = "Event Name: Diagnostic visit\\n\\nHi there!\\n\\nIn our service area, we offer diagnostic services. \\n\\nLocation: 11111 W Ratliff Rd\\n\\nPlease share the appliance type and model to help us better prepare for our visit.: Tractor Model DW80US\\n\\nPlease describe the issue.: Turns on but won't run. Address says Spencer but that's just the post office that delivers the mail.\\n\\nIf convenient for you, please provide a phone number so we can connect before the visit.: +1 312-922-2388\\n\\nNeed to make changes to this event?\\nCancel: https://calendly.com/cancellations/20b46974\\nReschedule: https://calendly.com/reschedulings/6974\\n\\nPowered by Calendly.com\\n\",";
     private final GoogleEventParser googleEventParser = new GoogleEventParser();
@@ -29,7 +29,7 @@ class GoogleEventParserTest {
         //given
         try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(FILE_PATH)) {
             if (inputStream == null) {
-                throw new RuntimeException("File not found!");
+                throw new RuntimeException("File with test data not found!");
             }
             String jsonString = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
             val calendarEvent = googleCalendarService.parseEvents(jsonString);
