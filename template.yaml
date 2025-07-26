@@ -12,7 +12,7 @@ Resources:
   GoogleZohoFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: com.example.lambda.LambdaHandler::handleRequest
+      Handler: org.example.LambdaHandler::handleRequest
       CodeUri: .
       Runtime: java17
       Architectures:
@@ -22,8 +22,25 @@ Resources:
         HourlyTrigger:
           Type: Schedule
           Properties:
-            Schedule: rate(1 hour)
+            Schedule: cron(0 10-5 ? * * *)
+      SnapStart:
+        ApplyOn: PublishedVersions
+      AutoPublishAlias: live
+
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action:
+                - ssm:GetParameter
+                - ssm:PutParameter
+              Resource: arn:aws:ssm:us-east-1:721152523618:parameter/prod/calendar-zoho/credentials
+
       Environment:
         Variables:
           OFFICE_ADDRESS: "1333 S Fenbrook Ln, Bloomington, IN 47401"
+          DYNAMODB_TABLE_NAME: "ProcessedGoogleCalendarEvents_ZohoIntegration"
+          REGION: "us-east-1"
+          DYNAMODB_TTL: "30"  # 1 hour in days
+          LOG_LEVEL: "DEBUG"
+          PARAM_NAME: "/prod/calendar-zoho/credentials"
 

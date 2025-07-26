@@ -8,7 +8,8 @@ public class LambdaHandler implements RequestHandler<Object, String> {
     @Override
     public String handleRequest(Object input, Context context) {
         try {
-            AppLogic appLogic = new AppLogic();
+            ServiceFactory factory = new ServiceFactory();
+            AppLogic2 appLogic = new AppLogic2(factory);
             return appLogic.runSync();
         } catch (Exception e) {
             context.getLogger().log("Error: " + e.getMessage());
